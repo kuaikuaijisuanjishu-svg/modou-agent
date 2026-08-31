@@ -1,0 +1,8 @@
+# Control Plane runtime (Python 3.14.7 verified on 2026-08-23).
+fastapi~=0.141.0
+uvicorn~=0.52.0
+httpx~=0.28.0
+pydantic~=2.13.0
+# Default local-repo adapter; --repo-python may bind a dedicated environment.
+pytest~=9.0
+coverage~=7.13
