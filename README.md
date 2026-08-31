@@ -1,4 +1,4 @@
-# 墨斗 Modou
+# 水木验码 Shuimu Yanma
 
 > 一个受测试证据约束的 AI 代码审查智能体。
 > An AI code-review agent constrained by test evidence.
@@ -8,9 +8,11 @@
 
 ## 中文
 
-墨斗面向一个越来越现实的问题：AI 写代码越来越快，但原来的测试真的能发现这些新增代码的问题吗？
+“水木”取自清华大学校园文化中的“水木清华”意象，“验码”对应项目对代码和测试证据的验证。这个命名表达了对严谨求真的期待；本项目是独立参赛作品，不代表清华大学官方产品或官方背书。
 
-墨斗不把自己定位成“输入代码、输出评论”的聊天工具。它是一个会围绕目标持续观察、执行实验、更新策略并决定下一步行动的本地智能体：
+水木验码面向一个越来越现实的问题：AI 写代码越来越快，但原来的测试真的能发现这些新增代码的问题吗？
+
+水木验码不把自己定位成“输入代码、输出评论”的聊天工具。它是一个会围绕目标持续观察、执行实验、更新策略并决定下一步行动的本地智能体：
 
 ```text
 用户目标 + 本地仓库 + 测试范围
@@ -44,14 +46,14 @@
 
 ### 核心方法
 
-墨斗把 AI 补丁放进隔离工作区，暂时拿走新增代码，再运行同一批仓库测试：
+水木验码把 AI 补丁放进隔离工作区，暂时拿走新增代码，再运行同一批仓库测试：
 
 - 测试因候选代码被移除而失败：说明这部分代码被测试真正承载。
 - 测试仍然通过：说明测试执行到了这部分代码，但没有形成有效约束。
 - 测试没有触及：说明当前测试范围没有提供证据。
 - 文件不在测试路径或执行链路中：标记为游离候选。
 
-实验结束后，墨斗验证工作区恢复状态，并把观察、结论和必要的聚合证据保存为可回放的本地证据包。
+实验结束后，水木验码验证工作区恢复状态，并把观察、结论和必要的聚合证据保存为可回放的本地证据包。
 
 ### 快速运行
 
@@ -105,9 +107,11 @@ python tools/public_release_check.py
 
 ## English
 
-Modou addresses a practical problem: AI can write code faster, but do the existing tests actually detect problems in the newly added code?
+“Shuimu” comes from the “Shuimu Qinghua” cultural image associated with Tsinghua University, while “Yanma” means verifying code. The name reflects an aspiration for rigorous, evidence-based engineering. This is an independent competition project, not an official Tsinghua University product or endorsement.
 
-Modou is not a chat tool that simply turns code into comments. It is a local agent that maintains a goal, performs experiments, reads observations, updates its strategy, and decides what to do next:
+Shuimu Yanma addresses a practical problem: AI can write code faster, but do the existing tests actually detect problems in the newly added code?
+
+Shuimu Yanma is not a chat tool that simply turns code into comments. It is a local agent that maintains a goal, performs experiments, reads observations, updates its strategy, and decides what to do next:
 
 ```text
 User goal + local repository + test scope
@@ -141,14 +145,14 @@ The default demo uses a deterministic local policy so judges can reproduce the s
 
 ### Core method
 
-Modou places an AI patch in an isolated workspace, temporarily removes newly added code, and runs the same repository tests again:
+Shuimu Yanma places an AI patch in an isolated workspace, temporarily removes newly added code, and runs the same repository tests again:
 
 - If a test fails after the candidate code is removed, the code is genuinely exercised and carried by that test.
 - If the test still passes, the test reached the code but did not form an effective constraint.
 - If no test reaches it, the current test scope provides no evidence for that candidate.
 - If a file is outside the test path or execution chain, it is marked as an unconnected candidate.
 
-After the experiment, Modou verifies workspace restoration and stores observations, conclusions, and necessary aggregate evidence in a replayable local evidence bundle.
+After the experiment, Shuimu Yanma verifies workspace restoration and stores observations, conclusions, and necessary aggregate evidence in a replayable local evidence bundle.
 
 ### Quick start
 
