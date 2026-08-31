@@ -2,6 +2,9 @@
 
 > 一个受测试证据约束的 AI 代码审查智能体。
 
+[![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![pytest](https://img.shields.io/badge/tested%20with-pytest-0A9EDC?logo=pytest&logoColor=white)](https://pytest.org/)
+
 墨斗面向一个越来越现实的问题：AI 写代码越来越快，但原来的测试真的能发现这些新增代码的问题吗？
 
 墨斗不把自己定位成“输入代码、输出评论”的聊天工具。它是一个会围绕目标持续观察、执行实验、更新策略并决定下一步行动的本地智能体：
