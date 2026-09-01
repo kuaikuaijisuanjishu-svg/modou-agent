@@ -1,13 +1,13 @@
 """模型接口与 deterministic provider。
 
-**只有这个文件可以接触外部模型 API**（03 §四）。把 SDK import 散进实验引擎，
+**只有这个文件可以接触外部模型 API**。把 SDK import 散进实验引擎，
 就等于让裁决路径依赖一个云服务的可用性和版本。
 
 `DeterministicProvider` 不是占位符，它有三个真实用途：
 
 1. **CI 与离线演示**：断网、没有 key、API 抖动时，整条链仍然走得通；
-2. **A/B 基线**：04 §六 要求把模型调度与 FIFO / cost-first / coverage-first
-   比。基线必须是同一套接口下的真实实现，否则比的是两套代码而不是两种策略；
+2. **可比较策略**：FIFO / cost-first / coverage-first 共享同一套接口，
+   避免把实现差异误当成调度差异；
 3. **失败回退**：模型不可用时退回它，而不是让运行失败。
 
 它按 anchor_id 的自然序推进——也就是 FIFO 基线。**刻意不聪明**：
@@ -29,7 +29,7 @@ from .narrator import NarrationLayout
 
 @dataclass(frozen=True)
 class ProviderInfo:
-    """写进 RunBundle 的 provider 元数据。**不含 key**（03 §五）。"""
+    """写进 RunBundle 的 provider 元数据。**不含 key**。"""
     kind: str
     model_id: str = ""
     temperature: float | None = None
@@ -293,9 +293,8 @@ def coverage_first_order(anchors: tuple[str, ...],
                         candidates) -> tuple[tuple[str, ...], str]:
     """Rank candidates by how many of their added lines the baseline executed.
 
-    This is the same rule A2 measured as the `coverage_first` baseline, so the
-    product and the evaluation cannot drift apart: highest covered-added-lines
-    first, ties keeping the frozen order (`sorted` is stable).
+    Highest covered-added-lines first, with ties keeping the frozen order
+    (`sorted` is stable). This makes the public default deterministic.
 
     Returns the order *and* the strategy actually applied. When a candidate has
     no summary there is nothing to rank on, and the frozen order is returned

@@ -471,8 +471,7 @@ class ReviewManager:
         # when the plan is frozen — so the deterministic order is applied here,
         # after the baseline and before the first probe. The frozen universe is
         # untouched: the candidate set is identical, only the visiting order
-        # differs, and the loop probes remaining[0], so ranking here is what
-        # makes the product match the coverage_first baseline A2 measured.
+        # differs, and the loop probes remaining[0], so ranking is applied here.
         summaries = rt.session.candidate_summaries()
         priorities = tuple(rt.frozen_plan.plan.priorities)
         ordered, applied = coverage_first_order(priorities, summaries)

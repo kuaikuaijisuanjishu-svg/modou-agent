@@ -45,7 +45,7 @@ def label_lines(path: str, added: list[AddedLine], cov: CoverageResult,
 
         # 整个文件压根没被测量到（典型情况：新建的脚本没人 import）。
         # 这时说"不可执行"是错的——我们只是没有数据。必须与 non_executable 区分开，
-        # 否则一个 40 行的复现脚本会被整片记成"非执行行"，H1 直接归零。
+        # 否则一个未被导入的新脚本会被整片误记成“非执行行”。
         if not measured:
             out.append(LineResult(path=path, lineno=a.lineno,
                                   label=Label.UNLABELED,

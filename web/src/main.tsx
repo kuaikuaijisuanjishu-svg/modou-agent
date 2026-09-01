@@ -388,7 +388,10 @@ function App() {
 
   return <main>
     <header>
-      <div><span className="seal">墨</span><div><h1>墨斗</h1><p>用实验找出真正被测试保护的代码</p></div></div>
+      <div className="brand-lockup"><img src="/brand/shuimu-yancode-mark.svg" alt="水木验码图形标识" />
+        <div><h1>水木验码</h1><p>SHUIMU YANMA · VERIFIABLE TEST PROTECTION</p></div>
+        <span className="version-badge">v0.1.0</span>
+      </div>
       <div className="header-controls">
         <div className="view-switch" aria-label="界面模式">
           <button className={uiMode === "judge" ? "active" : ""} onClick={() => setUiMode("judge")}>评委模式</button>
@@ -403,8 +406,8 @@ function App() {
     <section className={`hero ${review ? "compact" : ""}`}>
       <div className="hero-copy"><p className="eyebrow">给代码审查者一份能复查的答案</p>
         <h2>AI 写的代码测试全绿，<em>哪几行真的有测试撑着？</em></h2>
-        <p className="hero-description"><strong>“有测试保护”不等于代码绝对正确。</strong>它指的是：代码被拿掉或改坏时，会有一条具体测试报警。墨斗用可恢复的小实验，把这条关系找出来。</p>
-        <div className="plain-process" aria-label="墨斗的工作方法">
+        <p className="hero-description"><strong>“有测试保护”不等于代码绝对正确。</strong>它指的是：代码被拿掉或改坏时，会有一条具体测试报警。水木验码用可恢复的小实验，把这条关系找出来。</p>
+        <div className="plain-process" aria-label="水木验码的工作方法">
           <span><b>1</b><strong>先跑一遍</strong><small>确认原测试本来是绿的</small></span>
           <span><b>2</b><strong>临时拿走代码</strong><small>做一次可恢复的小实验</small></span>
           <span><b>3</b><strong>看谁会报警</strong><small>把失败测试和代码对应起来</small></span>
@@ -470,7 +473,7 @@ function App() {
                 </>}
             </div>)}
         </div>}
-      <p className="judge-thesis"><strong>一句话：</strong>墨斗临时拿掉新增代码，观察哪个具名测试失败，再把代码恢复；所以评委看到的是一场可以复查的小实验，不是模型直接猜测。</p>
+      <p className="judge-thesis"><strong>一句话：</strong>水木验码临时拿掉新增代码，观察哪个具名测试失败，再把代码恢复；所以评委看到的是一场可以复查的小实验，不是模型直接猜测。</p>
     </section>}
 
     <div className={`workspace workspace-${uiMode}`}>
@@ -495,7 +498,7 @@ function App() {
                 <li>预算 {String(review.plan?.budget_seconds ?? "")} 秒</li>
               </ul>
               <button className="approve" disabled={busy} onClick={approve}>确认计划并开始审查</button>
-              <small>墨斗不会自动删代码：它临时移除、观察具名测试、随后恢复。未经这一步不会执行任何实验。</small>
+              <small>水木验码不会自动删代码：它临时移除、观察具名测试、随后恢复。未经这一步不会执行任何实验。</small>
             </div>}
           </> : <div className="empty">服务器尚未配置公开案例。仍可打开离线 ReviewBundle 进行可复核回放。</div>}
         </> : <>
@@ -658,7 +661,7 @@ function App() {
       {evidenceDetail ? <EvidenceCard record={evidenceDetail} bundle={reviewBundle}/>
         : <details><summary>展开事件数据</summary><pre>{JSON.stringify(selected.data, null, 2)}</pre></details>}
     </aside>}
-    <footer><span>运行来源 · {runMode}</span><span>执行模式 · {executionMode}</span><span>调度方式 · {schedulingMode}</span>
+    <footer><span>水木验码 v0.1.0 · Modou 技术内核</span><span>运行来源 · {runMode}</span><span>执行模式 · {executionMode}</span><span>调度方式 · {schedulingMode}</span>
       <span>结论边界 · 仅限已声明测试范围，不代表语义等价</span></footer>
   </main>;
 }

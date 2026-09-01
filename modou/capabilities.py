@@ -243,8 +243,7 @@ _DENIAL_MARKERS = re.compile(
     r"不得|不可|禁止|禁用|严禁|不能|不许|不允许|不应|不说|不宣传|不主张|不写|"
     r"避免|不要|杜绝|不做|不增加|不给出|不提供|不支持|不会|一律不|撤下|"
     r"不竞争|非目标|延期|暂不|范围外|排除|不承诺|待完成|尚未|拒绝|不采用|反例|"
-    # 「不是 99 个独立任务」——纠正一个错误说法的句子，本身不是那个说法。
-    # 这正是 RESULT.md 里确立计数纪律的那一句，漏掉它就会把纪律本身判成违规。
+    # 纠正错误说法的句子本身不是被纠正的主张。
     r"不是|而非|并非|已被取代|旧口径|"
     r"must not|never|do not|don't|forbidden|prohibited|out of scope|not ")
 #: A claim quoted in order to be *named as* a misunderstanding is not a claim.

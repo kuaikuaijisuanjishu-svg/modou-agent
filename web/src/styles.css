@@ -509,3 +509,60 @@ footer { display: flex; flex-wrap: wrap; gap: 26px; border-top: 1px solid #2f342
 }
 .capability-row span { font-size: .78rem; line-height: 1.5; opacity: .85; }
 .capability-row small { font-size: .72rem; line-height: 1.5; opacity: .62; }
+
+/* 水木验码 v0.1 公开展示面：紫色负责品牌识别，薄荷绿只表达已验证状态。 */
+:root {
+  --shuimu-violet: #8b6cf2;
+  --shuimu-violet-bright: #a894ff;
+  --shuimu-mint: #63d9ad;
+  color: #f0edf7;
+  background: #100d18;
+}
+body {
+  background:
+    radial-gradient(circle at 78% 0%, rgba(139, 108, 242, .20) 0, transparent 31%),
+    radial-gradient(circle at 8% 28%, rgba(99, 217, 173, .06) 0, transparent 24%),
+    linear-gradient(180deg, #100d18 0, #0c0a12 100%);
+}
+header { border-bottom-color: #33264d; }
+.brand-lockup { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.brand-lockup > img {
+  width: 44px; height: 44px; padding: 5px; flex: 0 0 auto;
+  border: 1px solid rgba(139, 108, 242, .56); border-radius: 10px;
+  background: rgba(22, 17, 33, .78);
+}
+.brand-lockup h1 { font-family: "Noto Serif SC", "Songti SC", serif; letter-spacing: .12em; }
+.brand-lockup p { color: #a49ab3; font: 9px/1.45 "DM Mono", monospace; letter-spacing: .10em; }
+.version-badge {
+  color: #d9d0ff; background: rgba(139, 108, 242, .12);
+  border: 1px solid rgba(139, 108, 242, .46); border-radius: 999px;
+  padding: 4px 8px; font: 700 9px "DM Mono", monospace; letter-spacing: .06em;
+}
+.view-switch { border-color: #40335a; }
+.view-switch button { background: #17121f; color: #aaa0b9; }
+.view-switch button.active { background: var(--shuimu-violet); color: #100d18; }
+.mode-strip span, .mode { background: #17121f; border-color: #382b50; color: #b9b0c6; }
+.hero h2 em, .overview-heading span, .result-kicker { color: var(--shuimu-violet-bright); }
+.plain-process > span, .judge-overview, .workspace { background: rgba(23, 18, 31, .90); border-color: #3b2d52; }
+.plain-process b, .judge-overview { border-color: var(--shuimu-violet); }
+.plain-process b { color: var(--shuimu-violet-bright); }
+.status-card.tone-active { border-color: var(--shuimu-violet); }
+.progress i { background: var(--shuimu-violet); }
+.tone-success .progress i { background: var(--shuimu-mint); }
+.judge-thesis { border-left-color: var(--shuimu-violet); }
+.primary, .approve { background: var(--shuimu-violet) !important; color: #100d18 !important; }
+.primary:hover:not(:disabled), .approve:hover:not(:disabled) { background: var(--shuimu-violet-bright) !important; }
+.capability-badge.tone-ok { color: var(--shuimu-mint); }
+footer { border-top-color: #33264d; color: #8f859e; }
+
+@media (max-width: 720px) {
+  main { padding-left: 16px; padding-right: 16px; }
+  header { height: auto; min-height: 84px; align-items: flex-start; gap: 12px; padding: 14px 0; }
+  .brand-lockup > img { width: 38px; height: 38px; }
+  .brand-lockup h1 { font-size: 18px; }
+  .brand-lockup p { display: none; }
+  .version-badge { align-self: center; }
+  .header-controls { align-items: flex-end; }
+  .mode-strip { display: none; }
+  .hero-description, .field-note, .preset-description, code, .hash { overflow-wrap: anywhere; }
+}

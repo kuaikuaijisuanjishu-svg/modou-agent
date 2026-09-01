@@ -435,10 +435,8 @@ class AnalysisSession:
           applicable but unproven — ddmin ran, spent trials, and still could not
                                     certify; the record says which trial outcome.
 
-        Deliberately called after `probe.completed` is emitted: these trials must
-        not land in `Observation.cost_s`, which the A2 oracle reads. Folding them
-        in would make turning ddmin on silently change the measured cost of every
-        candidate.
+        Deliberately called after `probe.completed` is emitted: optional
+        minimization must not silently change the ordinary probe cost.
         """
         if self.probe_strategy is not ddmin_mod.ProbeStrategy.DDMIN:
             return
@@ -461,8 +459,7 @@ class AnalysisSession:
             """Stamp cost, including the giving-up paths.
 
             "It produced no certificate" and "it spent two minutes producing no
-            certificate" are different findings, and the 12-task evaluation
-            compares durations between strategies.
+            certificate" are different findings, so duration is always kept.
             """
             record["experiments"] = experiments
             record["duration_s"] = round(time.time() - started, 3)

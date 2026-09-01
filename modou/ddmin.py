@@ -388,8 +388,7 @@ def _validate_universe(units: tuple[AtomicUnit, ...]) -> None:
     ids = [u.unit_id for u in units]
     # Kept apart: "the patch offered no deletable added-only statement" and
     # "two atoms hashed to the same id" are different findings with different
-    # fixes, and one message for both made the dominant rejection reason in the
-    # 12-unit evaluation undiagnosable.
+    # fixes; one message for both would make failures hard to diagnose.
     if not units:
         raise InvalidUniverse(
             "frozen universe is empty: no deletable added-only statement",

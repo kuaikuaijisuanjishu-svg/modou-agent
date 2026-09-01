@@ -14,7 +14,7 @@
 
 `AgentState` 里的 `observations` 记录已经发生过的实验。模型可以读它来决定
 下一步，但不能改它——把失败实验说成成功、把超时从记录里删掉，
-是 04 §五 明确要防的作弊。这里用 frozen dataclass + tuple 表达这条纪律，
+会破坏证据可信度。这里用 frozen dataclass + tuple 表达这条纪律，
 而不是靠 prompt 里写一句"请不要修改"。
 """
 from __future__ import annotations
@@ -65,7 +65,7 @@ class ToolSpec:
     summary: str = ""
 
 
-#: 初评开放的八个工具（02 §四）。**这里没有的东西模型就调不到**——
+#: 公开运行时开放的八个工具。**这里没有的东西模型就调不到**——
 #: 尤其没有 shell、write_test、git_commit、git_push、delete_file_permanently。
 #: 不提供它们比"提供了再拦住"安全一个数量级：拦截逻辑会有 bug，不存在的东西不会。
 CATALOG_V1: tuple[ToolSpec, ...] = (
@@ -91,7 +91,7 @@ CATALOG_V1: tuple[ToolSpec, ...] = (
 class ToolNotAllowed(ValueError):
     """模型请求了目录之外的工具，或给了未声明的参数。
 
-    这是**请求**越权，不是**执行**越权——两者必须分开计数（04 §十一）。
+    这是**请求**越权，不是**执行**越权——两者必须分开计数。
     把被拦下的请求算成"模型没有越权意图"是在美化数字。
     """
 
@@ -124,7 +124,7 @@ class AgentAction:
     args: dict = field(default_factory=dict)
     order: tuple[str, ...] = ()          # REPRIORITIZE 时的新顺序
     stop_reason: StopReason | None = None
-    #: 展示给用户看的一句话理由。**不是思维链**——02 §七 要求它简短可展示。
+    #: 展示给用户看的一句话理由。**不是思维链**，必须简短可展示。
     reason: str = ""
 
     @classmethod
@@ -222,7 +222,7 @@ class AgentState:
     """一次运行的全部可见状态。**frozen**：推进状态只能靠 `advance` 产生新值。
 
     这不是洁癖。可变状态意味着任何一处代码都能改预算、改已完成集合，
-    而"模型不能删掉难实验来提高完成率"（02 §七）这条防作弊纪律
+    而"模型不能删掉难实验来提高完成率"这条防作弊纪律
     就没有结构上的保证。
     """
     goal: str = ""
@@ -231,7 +231,7 @@ class AgentState:
     step: int = 0
     max_steps: int = 32
     #: 运行前**冻结**的合格实验全集。模型只能重排，不能增删——
-    #: 它是 H1′ 的分母，动了它整个调度评测就失去意义（04 §六）。
+    #: 它决定公开完成率的分母；改变它会让同一运行前后不可比较。
     frozen_universe: tuple[str, ...] = ()
     remaining: tuple[str, ...] = ()
     observations: tuple[Observation, ...] = ()

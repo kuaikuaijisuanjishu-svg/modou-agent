@@ -90,11 +90,11 @@ def prepare(instance_id: str, meta: dict, adapter: RepoAdapter,
             python: str | None = None) -> Workspace:
     """建 worktree，打 AI 补丁与 test_patch，提交成基线。失败一律抛，不返回 None。
 
-    slug 用来区分同一 instance_id 的不同 scaffold —— 并行评测时它们会同时开工，
+    slug 用来区分同一 instance_id 的不同工作副本——并行运行时它们会同时开工，
     共用一个 worktree 路径就会互相踩踏。
 
     `repo_root` / `python` 是给**用户自己的仓库**用的覆盖项（`inputs.from_local_repo`）。
-    默认仍走 `paths.WORK` 下的 clone 与 venv，冻结样本评测路径完全不变。
+    默认仍走 `paths.WORK` 下的 clone 与 venv。
 
     在用户仓库上开 worktree **不会动他们的工作树**：`worktree add --detach`
     只读地引用对象库，当前分支、暂存区、未提交改动都不受影响。

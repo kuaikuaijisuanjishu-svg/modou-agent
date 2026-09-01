@@ -15,7 +15,7 @@ from .control import RepoRegistry, ReviewManager
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="墨斗本地 Review Cockpit")
+    parser = argparse.ArgumentParser(description="水木验码本地 Review Cockpit")
     parser.add_argument("--allow-repo", action="append", required=True, type=Path,
                         help="明确允许执行测试的 Git 仓库（可重复）")
     parser.add_argument("--repo-python", action="append", default=[],

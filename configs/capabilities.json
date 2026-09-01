@@ -1,0 +1,47 @@
+{
+  "schema_version": "modou-capability-registry-v1",
+  "capabilities": [
+    {
+      "id": "counterfactual_evidence",
+      "title": "可逆反事实证据",
+      "state": "verified",
+      "runtime": "default",
+      "summary": "临时移除候选代码、重跑具名测试并校验工作区恢复。",
+      "gate": "公开演示能够生成脱敏证据包，且最小回归测试通过。",
+      "evidence": ["tests/test_public_smoke.py", "docs/security-boundary.md"],
+      "mentions": ["反事实实验", "counterfactual experiment"],
+      "disclosures": [],
+      "forbidden": [
+        {"pattern": "(?:已经|可以|能够)证明.{0,12}(绝对正确|语义等价|安全删除)", "why": "测试反事实只能支持声明测试范围内的证据结论。"}
+      ]
+    },
+    {
+      "id": "ddmin",
+      "title": "完整 ddmin 最小化",
+      "state": "experimental",
+      "runtime": "opt_in",
+      "summary": "公开代码保留可选实现，但它会增加实验次数，不是默认演示路径。",
+      "gate": "需要独立的公开性能与稳定性证据后才能升级为已验证。",
+      "evidence": [],
+      "mentions": ["\\bddmin\\b", "1-minimal"],
+      "disclosures": ["实验性", "experimental", "可选实现"],
+      "forbidden": [
+        {"pattern": "ddmin.{0,20}(已经|已).{0,10}(最优|全面验证)", "why": "公开包没有支持最优性或全面验证的证据。"}
+      ]
+    },
+    {
+      "id": "inert_label",
+      "title": "惰性结论",
+      "state": "disabled",
+      "runtime": "unavailable",
+      "summary": "该标签不进入公开版正式三态结论。",
+      "gate": "只有新的公开可复现实验和人工复核均通过后才可重新评估。",
+      "evidence": [],
+      "mentions": ["惰性结论", "inert label"],
+      "disclosures": ["已关闭", "不进入", "disabled"],
+      "forbidden": [
+        {"pattern": "惰性结论.{0,12}(已启用|正式上线)", "why": "该能力在公开运行时不可用。"}
+      ]
+    }
+  ]
+}

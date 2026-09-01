@@ -187,7 +187,7 @@ class RunEvent:
     """One event emitted by a review run.
 
     刻意不做成自由字典：UI「不读取任意日志猜状态，只根据结构化事件渲染」
-    （02 §十），字典会让这条纪律无声地退化。
+    使用 tuple 保持记录顺序与重复项，字典会让这条纪律无声地退化。
     """
     kind: str
     run_id: str

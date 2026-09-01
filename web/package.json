@@ -2,6 +2,8 @@
   "name": "modou-review-cockpit",
   "private": true,
   "version": "0.1.0",
+  "description": "Sanitized public Review Cockpit for Shuimu Yanma",
+  "license": "Apache-2.0",
   "type": "module",
   "scripts": {
     "dev": "vite",

@@ -35,15 +35,8 @@ ISOLATION_MODES = frozenset({"sandboxed", "trusted_local", "ci_ephemeral",
 #: The deterministic strategies, i.e. every scheduler that needs no model.
 DETERMINISTIC_SCHEDULERS = frozenset({"fifo", "coverage_first", "cost_first"})
 
-#: What a run uses when no model is steering.
-#:
-#: The final provenance-bound A2 rerun measured this on 30 real patches:
-#: coverage_first scored 0.6454 against FIFO's 0.5616 and the model's 0.5694,
-#: and beat the model on all 18 non-degenerate
-#: tasks, and never once lost to FIFO. It costs no model call. See
-#: `configs/evals/a2_product_policy_decision_v1.json` — that is a post-hoc
-#: decision on the same retrospective sample, not an independently validated
-#: general result.
+#: Public default when no model is steering. It is deterministic, uses only
+#: baseline coverage already collected by the run, and costs no model call.
 DEFAULT_DETERMINISTIC_SCHEDULER = "coverage_first"
 
 

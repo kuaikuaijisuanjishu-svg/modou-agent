@@ -79,7 +79,7 @@ def merge(base: list[LineResult], units: list[EvidenceUnit],
 
 
 def summarize(results: list[LineResult]) -> dict:
-    """H1 与四态分布。分母是全部新增物理行。"""
+    """已标注比例与状态分布。分母是全部新增物理行。"""
     total = len(results)
     labels = Counter(r.label for r in results)
     reasons = Counter(r.reason for r in results if r.reason is not None)

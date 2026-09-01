@@ -1,4 +1,4 @@
-"""墨斗的数据模型。
+"""水木验码的核心数据模型。
 
 三个核心对象：
 - TestVector：已声明测试范围的逐项状态向量。判定"有没有变化"比的是它，不是退出码。
@@ -76,7 +76,7 @@ class Label(str, Enum):
     UNLABELED = "未标注"
 
 
-#: 四态 —— H1 的分子只数这四个
+#: 进入已标注比例分子的状态
 LABELED = frozenset({Label.DRIFT, Label.LOAD_BEARING, Label.INERT, Label.UNEVIDENCED})
 
 
