@@ -1,6 +1,6 @@
 """临时工作树、基线快照、恢复校验。
 
-墨斗不修改用户仓库。所有试删只发生在 scratch 里的 git worktree，
+水木验码不修改用户仓库。所有试删只发生在 scratch 里的 git worktree，
 每次探测后恢复到同一基线，并用 tree 哈希验证恢复是否干净——
 "我以为回滚了"和"确实回滚了"是两回事。
 
@@ -109,7 +109,7 @@ def prepare(instance_id: str, meta: dict, adapter: RepoAdapter,
 
     base_name = f"{slug}__{instance_id}" if slug else instance_id
     # 路径必须按**运行**唯一，而不能只按 instance 唯一。多个 Review（甚至多个
-    # 墨斗进程）可以同时审查同名本地仓库；共享路径会让一方删除另一方的
+    # 水木验码进程）可以同时审查同名本地仓库；共享路径会让一方删除另一方的
     # worktree，并在用户仓库 .git/worktrees 下争用同一个锁。
     wt = paths.WORKTREES / f"{base_name}__{uuid.uuid4().hex[:12]}"
     wt.parent.mkdir(parents=True, exist_ok=True)
