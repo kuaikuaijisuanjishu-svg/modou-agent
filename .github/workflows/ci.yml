@@ -17,6 +17,7 @@ jobs:
         with:
           python-version: "3.12"
           cache: pip
+          cache-dependency-path: requirements-agent.in
       - run: pip install -r requirements-agent.in
       - run: python tools/public_release_check.py
       - run: python tests/run.py
