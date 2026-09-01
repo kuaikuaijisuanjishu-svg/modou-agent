@@ -45,6 +45,10 @@ def test_public_bundle_removes_private_material():
     assert "hidden" not in rendered
     assert "private model output" not in rendered
     assert "private.example.test" not in rendered
+    policy = bundle["evaluation_context"]["resource_policy"]
+    assert policy["timeout_cleanup"] == "process_group"
+    assert policy["memory_limit"] == "not_enforced"
+    assert policy["process_count_limit"] == "not_enforced"
 
 
 def test_public_executor_kills_timeout_process_group():

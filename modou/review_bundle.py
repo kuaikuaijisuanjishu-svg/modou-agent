@@ -116,6 +116,22 @@ def _mode_fields(request: dict, provider: dict) -> tuple[str, str, str]:
     return execution_mode_for(isolation), scheduler, isolation
 
 
+def _resource_policy(*, request: dict, isolation_mode: str) -> dict:
+    """Describe enforced and intentionally unenforced execution limits."""
+    replay = isolation_mode == "replay"
+    return {
+        "schema_version": "resource-policy-v1",
+        "budget_seconds": request.get("budget_seconds"),
+        "budget_semantics": "wall_clock",
+        "timeout_cleanup": "not_applicable" if replay else "process_group",
+        "disk_limit": ("not_applicable" if replay else
+                        "sandbox_file_size_only" if isolation_mode == "sandboxed"
+                        else "not_enforced"),
+        "memory_limit": "not_enforced",
+        "process_count_limit": "not_enforced",
+    }
+
+
 def build_review_bundle_v2(*, review_id: str, request: dict, plan: dict,
                            events: list[dict], scheduler_trace: list[dict],
                            evidence_run_id: str, evidence_bundle: dict,
@@ -151,6 +167,11 @@ def build_review_bundle_v2(*, review_id: str, request: dict, plan: dict,
         "budget_semantics": "wall_clock",
     }
     context.update(evaluation_context)
+    # This is derived from the request and actual isolation mode, not caller
+    # supplied prose, so the artifact cannot claim a stronger boundary than
+    # the executor implements.
+    context["resource_policy"] = _resource_policy(
+        request=request, isolation_mode=isolation_mode)
     bundle = {
         "schema_version": SCHEMA_VERSION,
         "review_id": review_id,
