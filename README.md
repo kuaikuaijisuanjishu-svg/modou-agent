@@ -127,8 +127,121 @@ python tests/run.py
 
 ## English
 
-**Shuimu Yanma v0.1.0** is a sanitized, runnable public showcase. It uses reversible experiments to test whether newly added code is genuinely constrained by named tests, then verifies workspace restoration and emits replayable evidence.
+### Shuimu Yanma v0.1.0
 
-The public repository contains the core review loop, a rebuildable demo, the local UI, and minimal release checks. It intentionally excludes historical tests, internal rules, evaluation data, private plans, raw runs, model transcripts, credentials, host identity, and the location of the private research workspace.
+> Use reversible experiments to verify whether newly added code is genuinely constrained by tests.
 
-The Apache-2.0 license applies only to files actually published in this repository. Unpublished private materials are outside this license. This is an independent competition project and is not an official Tsinghua University product or endorsement.
+**Shuimu Yanma** is a sanitized, runnable public showcase for evidence-based code review. The Chinese name combines the cultural image of *shuimu* (water and wood) with *yanma* (code verification). This is an independent competition project; it is not an official Tsinghua University product and carries no institutional endorsement.
+
+### What problem does it solve?
+
+Passing tests do not necessarily mean that every newly added line is actually constrained by those tests. Shuimu Yanma temporarily removes candidate additions inside an isolated Git worktree, reruns the repository's declared tests, observes which named tests change, and restores the workspace afterward.
+
+```text
+Local Git repository + declared test scope
+                 ↓
+          Freeze the review plan
+                 ↓
+       Run reversible experiments
+                 ↓
+       Test results + restore checks
+                 ↓
+      Three-state findings + replayable evidence
+```
+
+- **Load-bearing** — removing the candidate causes a named test to fail.
+- **Unevidenced** — the declared test scope does not provide enough constraint for the candidate.
+- **Orphaned** — a new file is not reached by an observed test or reference path.
+- **Scope discipline** — findings apply only to the tests that actually ran. They do not prove correctness, safe deletion, or semantic equivalence.
+
+### Run the public demo in five minutes
+
+```bash
+git clone https://github.com/kuaikuaijisuanjishu-svg/modou-agent.git
+cd modou-agent
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements-agent.in
+python demo/build_demo.py
+python demo/run_demo.py
+```
+
+Start the local interface:
+
+```bash
+(cd web && npm ci)
+(cd web && npm run build)
+python -m modou.server \
+  --allow-repo demo/retry_demo \
+  --preset-config configs/review-presets.example.json
+```
+
+The service binds only to the local loopback interface and requires a one-time startup token. Open the complete local URL printed in the terminal.
+
+### Verify the public package
+
+```bash
+python tools/public_release_check.py
+python tests/run.py
+(cd web && npm test)
+(cd web && npm run build)
+(cd web && npm run test:e2e)
+```
+
+These commands are also the GitHub Actions release gates. The end-to-end checks use public fixtures and verify the approval flow, the real service path, and repository-path boundaries.
+
+### Public package vs. private research workspace
+
+This repository is a **sanitized public showcase** maintained as a public project. It is not the complete research workspace.
+
+The public repository includes:
+
+- the runnable review loop, minimal demo, and local interface;
+- public security boundaries, version history, contribution guidance, and security reporting;
+- minimal tests and release checks for the published surface.
+
+It intentionally does not contain, and will not disclose through README files, commit history, Issues, Releases, or build artifacts:
+
+- historical tests, internal acceptance rules, unpublished evaluation data, or raw run records;
+- project history plans, sprint boards, internal research notes, or raw model responses;
+- personal absolute paths, host details, keys, account identifiers, or private repository locations;
+- capability claims and complete private implementations that have not passed the public release gate.
+
+**Location policy:** this GitHub repository is the only public location for the showcase. The complete research version remains in a separate non-public workspace. Public documentation describes the boundary without publishing that workspace's local path, directory topology, or historical contents.
+
+### Public release rules
+
+1. Select files only from a pre-established public allowlist; never copy the complete research workspace wholesale.
+2. Run sensitive-data and structure checks before the minimal tests and frontend build for every release.
+3. A feature enters a Release only when its public code, public explanation, and public verification are all present.
+4. Remove absolute paths, source bodies, raw command output, raw model responses, and internal identifiers from public evidence bundles.
+5. Apache-2.0 applies only to files actually published in this repository. Unpublished private materials receive no license from this repository.
+
+See [docs/security-boundary.md](docs/security-boundary.md) for the detailed disclosure boundary, [docs/architecture-overview.md](docs/architecture-overview.md) for architecture and resource boundaries, and [SECURITY.md](SECURITY.md) for private vulnerability reports.
+
+### Directory overview
+
+| Path | Public purpose |
+| --- | --- |
+| `modou/` | Internal compatibility package name for the state, policy, evidence, and local-service layers |
+| `demo/` | Rebuildable minimal demonstration repository |
+| `web/` | Shuimu Yanma local Review Cockpit |
+| `configs/` | Sanitized capability state and demo presets |
+| `tests/` | Minimal regression tests for the public boundary |
+| `tools/public_release_check.py` | Pre-release privacy and structure check |
+
+The `modou/` directory and related `MODOU_*` environment variables are retained as technical compatibility identifiers. They are internal implementation names, not the public product name.
+
+### Project maintenance
+
+- Version history: [CHANGELOG.md](CHANGELOG.md)
+- Contribution guide: [CONTRIBUTING.md](CONTRIBUTING.md)
+- Code of conduct: [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
+- Security reporting: [SECURITY.md](SECURITY.md)
+- Releases: [GitHub Releases](https://github.com/kuaikuaijisuanjishu-svg/modou-agent/releases)
+
+### License and brand identifiers
+
+The code in this repository is licensed under the [Apache License 2.0](LICENSE); see [NOTICE](NOTICE) for the accompanying notice.
+
+The names **Shuimu Yanma / 水木验码**, together with associated logos and visual identifiers, are project and brand identifiers. The software license does not grant trademark or brand-use permission. The internal `modou/` package name exists only for import compatibility.
