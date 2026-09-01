@@ -101,7 +101,7 @@ npm --prefix web run build
 
 | 路径 | 公开用途 |
 | --- | --- |
-| `modou/` | 状态、策略、证据引擎和本地服务 |
+| `modou/` | 内部兼容包名：状态、策略、证据引擎和本地服务 |
 | `demo/` | 可重建的最小演示仓库 |
 | `web/` | 水木验码本地 Review Cockpit |
 | `configs/` | 脱敏的能力状态和演示预设 |
@@ -120,7 +120,7 @@ npm --prefix web run build
 
 本仓库代码按 [Apache License 2.0](LICENSE) 许可，详见 [NOTICE](NOTICE)。
 
-“水木验码 / Shuimu Yanma”名称、图形标识以及“墨斗 / Modou”技术标识不因代码许可证而自动获得商标或品牌使用授权。详见 NOTICE。
+“水木验码 / Shuimu Yanma”名称和图形标识不因代码许可证而自动获得商标或品牌使用授权。内部 `modou/` 包名仅用于兼容导入。详见 NOTICE。
 
 ---
 

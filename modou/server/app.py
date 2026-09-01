@@ -1,4 +1,4 @@
-"""Authenticated same-origin FastAPI control plane for local Modou reviews."""
+"""Authenticated same-origin FastAPI control plane for local Shuimu Yanma reviews."""
 from __future__ import annotations
 
 import asyncio
@@ -22,7 +22,7 @@ def create_app(*, manager: ReviewManager, token: str,
                web_dist: Path | None = None) -> FastAPI:
     expected_host = f"{host}:{port}"
     expected_origin = f"http://{expected_host}"
-    app = FastAPI(title="墨斗本地控制面", docs_url=None, redoc_url=None,
+    app = FastAPI(title="水木验码本地控制面", docs_url=None, redoc_url=None,
                   openapi_url=None)
     app.state.manager = manager
     app.state.token = token
@@ -182,7 +182,7 @@ def create_app(*, manager: ReviewManager, token: str,
     else:
         @app.get("/")
         async def index_missing():
-            return Response("墨斗 Cockpit 尚未构建。请在 web/ 执行 npm run build。",
+            return Response("水木验码 Cockpit 尚未构建。请在 web/ 执行 npm run build。",
                             media_type="text/plain; charset=utf-8")
     return app
 

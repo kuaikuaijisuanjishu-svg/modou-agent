@@ -174,6 +174,6 @@ def _render_summary(model: dict, color: bool = True) -> str:
             for reg in u.get("regressions", [])[:2]:
                 out.append(f"  {loc['file']}:{loc['start']}-{loc['end']} → "
                            f"{reg['test_id']}  {reg['before']}→{reg['after']}")
-    out.append(_c("\n墨斗不替你删代码。它告诉你：哪些部分测试明确要求保留，"
+    out.append(_c("\n水木验码不替你删代码。它告诉你：哪些部分测试明确要求保留，"
                   "哪些部分测试没有意见，哪些部分测试根本没看见。", DIM, color))
     return "\n".join(out)

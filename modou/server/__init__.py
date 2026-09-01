@@ -1,4 +1,4 @@
-"""Modou local control plane."""
+"""Shuimu Yanma local control plane."""
 
 from .app import create_app
 from .control import RepoRegistry, ReviewManager

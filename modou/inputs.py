@@ -71,7 +71,7 @@ def _untracked_patch(repo: Path) -> str:
     直接消失，而且不会有任何报错。
 
     **为什么不用 `git add -N`。** 那个常见技巧会往用户的索引里写
-    intent-to-add 条目，也就是改了用户仓库的状态。墨斗的第一条纪律是
+    intent-to-add 条目，也就是改了用户仓库的状态。水木验码的第一条纪律是
     不动用户仓库，这里不能为了省几行代码破例。
     `git diff --no-index` 不碰索引，实测退出码 1 表示"有差异"，属正常。
     """
@@ -149,7 +149,7 @@ def from_local_repo(repo_path: Path, *, test_files: list[str],
         if not ai_patch.strip():
             raise InputError(
                 f"{base[:8]} 与工作树之间没有差异。"
-                f"墨斗审查的是补丁，没有补丁就没有可审查的新增行。")
+                f"水木验码审查的是补丁，没有补丁就没有可审查的新增行。")
 
     declared = [d.strip() for d in (declared_tests or []) if d.strip()]
     declare_all = not declared

@@ -381,7 +381,7 @@ function App() {
       if (!response.ok) throw new HttpError(response.status, "DOWNLOAD_FAILED", `下载失败：${response.status}`);
       const url = URL.createObjectURL(await response.blob());
       const a = document.createElement("a");
-      a.href = url; a.download = `modou-review-${review.review_id}.json`; a.click();
+      a.href = url; a.download = `shuimu-yanma-review-${review.review_id}.json`; a.click();
       URL.revokeObjectURL(url);
     } catch (e) { setError(noticeFor(e)); }
   }
@@ -661,7 +661,7 @@ function App() {
       {evidenceDetail ? <EvidenceCard record={evidenceDetail} bundle={reviewBundle}/>
         : <details><summary>展开事件数据</summary><pre>{JSON.stringify(selected.data, null, 2)}</pre></details>}
     </aside>}
-    <footer><span>水木验码 v0.1.0 · Modou 技术内核</span><span>运行来源 · {runMode}</span><span>执行模式 · {executionMode}</span><span>调度方式 · {schedulingMode}</span>
+    <footer><span>水木验码 v0.1.0 · 水木验码技术内核</span><span>运行来源 · {runMode}</span><span>执行模式 · {executionMode}</span><span>调度方式 · {schedulingMode}</span>
       <span>结论边界 · 仅限已声明测试范围，不代表语义等价</span></footer>
   </main>;
 }
