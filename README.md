@@ -48,8 +48,8 @@ python demo/run_demo.py
 启动本地界面：
 
 ```bash
-npm --prefix web ci
-npm --prefix web run build
+(cd web && npm ci)
+(cd web && npm run build)
 python -m modou.server \
   --allow-repo demo/retry_demo \
   --preset-config configs/review-presets.example.json
@@ -62,9 +62,9 @@ python -m modou.server \
 ```bash
 python tools/public_release_check.py
 python tests/run.py
-npm --prefix web test
-npm --prefix web run build
-npm --prefix web run test:e2e
+(cd web && npm test)
+(cd web && npm run build)
+(cd web && npm run test:e2e)
 ```
 
 以上命令也是 GitHub Actions 的发布门禁；端到端检查使用公开 fixture，并验证人工批准、真实服务链路和仓库路径边界。

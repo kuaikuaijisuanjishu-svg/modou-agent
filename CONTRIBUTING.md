@@ -14,13 +14,13 @@ Thank you for helping improve the sanitized public showcase of Shuimu Yanma.
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements-agent.in
-npm --prefix web ci
+(cd web && npm ci)
 python tools/public_release_check.py
 python tests/run.py
-npm --prefix web test
-npm --prefix web run build
-npx --prefix web playwright install chromium
-npm --prefix web run test:e2e
+(cd web && npm test)
+(cd web && npm run build)
+(cd web && npx playwright install chromium)
+(cd web && npm run test:e2e)
 ```
 
 ## Pull requests

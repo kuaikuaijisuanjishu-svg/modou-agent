@@ -26,10 +26,14 @@ jobs:
           node-version: "22"
           cache: npm
           cache-dependency-path: web/package-lock.json
-      - run: npm --prefix web ci
-      - run: npm --prefix web test
-      - run: npm --prefix web run build
+      - run: npm ci
+        working-directory: web
+      - run: npm test
+        working-directory: web
+      - run: npm run build
+        working-directory: web
       - name: Install Playwright browser
         run: npx playwright install --with-deps chromium
         working-directory: web
-      - run: npm --prefix web run test:e2e
+      - run: npm run test:e2e
+        working-directory: web
