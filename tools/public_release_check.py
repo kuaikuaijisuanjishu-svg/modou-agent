@@ -12,7 +12,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 FORBIDDEN_PARTS = {
     "runs", "experiments", "archive", "reports", "scratchpad", "private",
-    "evaluation", "e2e", "node_modules", "dist",
+    "evaluation", "node_modules", "dist",
 }
 FORBIDDEN_NAMES = re.compile(
     r"(?:capture_|freeze|aggregate_|evaluate|validate|run_day|run_.*eval|"
@@ -46,6 +46,7 @@ REQUIRED_PUBLIC_FILES = {
     Path("CONTRIBUTING.md"), Path("CODE_OF_CONDUCT.md"), Path("SECURITY.md"),
     Path("configs/capabilities.json"), Path("tests/run.py"),
     Path(".github/workflows/ci.yml"), Path(".github/workflows/release.yml"),
+    Path("web/e2e/public-flow.spec.ts"), Path("web/e2e/serve_fixture.py"),
 }
 
 

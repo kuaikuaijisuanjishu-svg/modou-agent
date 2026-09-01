@@ -29,3 +29,7 @@ jobs:
       - run: npm --prefix web ci
       - run: npm --prefix web test
       - run: npm --prefix web run build
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+        working-directory: web
+      - run: npm --prefix web run test:e2e

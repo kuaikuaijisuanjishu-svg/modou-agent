@@ -2,6 +2,14 @@
 
 All notable public changes are documented here. This log covers only the sanitized public showcase and intentionally excludes private research history.
 
+## [Unreleased]
+
+### Added
+
+- Public Playwright flow covering approval, real fixture execution, named regression output, and repository path rejection.
+- Public architecture overview documenting responsibilities, evidence lifecycle, and resource-limit boundaries.
+- CI and release workflows now install Chromium and run the browser gate.
+
 ## [0.1.0] - 2026-09-01
 
 ### Added

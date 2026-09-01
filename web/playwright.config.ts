@@ -22,7 +22,7 @@ export default defineConfig({
       // server stopped sending would leave those specs green. This one also
       // serves the production build, so `npm run build` output is under test
       // rather than only the dev bundle.
-      command: "npm run build && ../.venv-control/bin/python e2e/serve_real_backend.py",
+      command: "npm run build && python e2e/serve_fixture.py",
       url: "http://127.0.0.1:8788/",
       reuseExistingServer: false,
       timeout: 180_000,

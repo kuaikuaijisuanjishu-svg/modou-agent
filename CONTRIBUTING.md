@@ -19,6 +19,8 @@ python tools/public_release_check.py
 python tests/run.py
 npm --prefix web test
 npm --prefix web run build
+npx --prefix web playwright install chromium
+npm --prefix web run test:e2e
 ```
 
 ## Pull requests

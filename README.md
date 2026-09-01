@@ -64,9 +64,10 @@ python tools/public_release_check.py
 python tests/run.py
 npm --prefix web test
 npm --prefix web run build
+npm --prefix web run test:e2e
 ```
 
-以上命令也是 GitHub Actions 的发布门禁。
+以上命令也是 GitHub Actions 的发布门禁；端到端检查使用公开 fixture，并验证人工批准、真实服务链路和仓库路径边界。
 
 ## 公开版与完整研究版的边界
 
@@ -95,7 +96,7 @@ npm --prefix web run build
 4. 公开证据包移除绝对路径、源码正文、原始命令输出、原始模型响应和内部标识。
 5. Apache-2.0 仅适用于本仓库实际发布的文件；未进入本仓库的私有材料不因本许可证而获得授权。
 
-更具体的边界见 [docs/security-boundary.md](docs/security-boundary.md)，漏洞请按 [SECURITY.md](SECURITY.md) 私下报告。
+更具体的边界见 [docs/security-boundary.md](docs/security-boundary.md)，架构和资源边界见 [docs/architecture-overview.md](docs/architecture-overview.md)，漏洞请按 [SECURITY.md](SECURITY.md) 私下报告。
 
 ## 目录
 
