@@ -153,7 +153,7 @@ def create_app(*, manager: ReviewManager, token: str,
     async def bundle(review_id: str):
         return FileResponse(manager.review_bundle_path(review_id),
                             media_type="application/json",
-                            filename=f"modou-review-{review_id}.json")
+                            filename=f"shuimu-yanma-review-{review_id}.json")
 
     @app.post(f"{API_PREFIX}/replays")
     async def replay(request: Request):
