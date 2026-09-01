@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import contextvars
 import os
+import signal
 import subprocess
 import sys
 from contextlib import contextmanager
@@ -24,6 +25,36 @@ class CommandExecutor(Protocol):
 
     def run(self, argv: list[str], *, cwd: Path, timeout: float,
             env: dict[str, str]) -> subprocess.CompletedProcess: ...
+
+
+def _kill_process_group(process: subprocess.Popen) -> None:
+    """Stop a timed-out command and descendants, not only the direct child."""
+    if os.name == "nt":
+        process.kill()
+        return
+    try:
+        os.killpg(process.pid, signal.SIGKILL)
+    except ProcessLookupError:
+        pass
+
+
+def _run_with_process_group(argv: list[str], *, cwd: Path,
+                            timeout: float,
+                            env: dict[str, str]) -> subprocess.CompletedProcess:
+    """Run one command with a killable session and subprocess.run semantics."""
+    process = subprocess.Popen(
+        argv, cwd=str(cwd), env=env, stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE, text=True, start_new_session=os.name != "nt")
+    try:
+        stdout, stderr = process.communicate(timeout=timeout)
+    except subprocess.TimeoutExpired as exc:
+        _kill_process_group(process)
+        stdout, stderr = process.communicate()
+        raise subprocess.TimeoutExpired(
+            process.args, timeout, output=stdout or exc.output,
+            stderr=stderr or exc.stderr) from exc
+    return subprocess.CompletedProcess(process.args, process.returncode,
+                                       stdout, stderr)
 
 
 BASE_ENV_ALLOW = frozenset({
@@ -66,8 +97,7 @@ class TrustedLocalExecutor:
 
     def run(self, argv: list[str], *, cwd: Path, timeout: float,
             env: dict[str, str]) -> subprocess.CompletedProcess:
-        return subprocess.run(argv, cwd=str(cwd), env=env, capture_output=True,
-                              text=True, timeout=timeout)
+        return _run_with_process_group(argv, cwd=cwd, timeout=timeout, env=env)
 
 
 class SandboxedExecutor:
