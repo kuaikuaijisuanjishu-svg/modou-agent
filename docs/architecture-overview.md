@@ -41,6 +41,7 @@ ReviewBundle（可下载、可回放）
 | 测试范围 | 只运行服务端登记且仓库内的相对 pytest 路径 | `modou/server/control.py`、服务边界测试 |
 | 工作区 | 临时 worktree；实验结束执行恢复和干净状态校验 | `modou/workspace.py`、公开 smoke 测试 |
 | 时间与次数 | 由请求预算和执行策略控制；耗尽后停止 | `modou/budget.py`、核心测试 |
+| 超时回收 | 命令按独立进程组启动；超时会终止直接子进程及其后代 | `modou/executor.py`、公开 smoke 测试 |
 | 磁盘、内存、进程数 | 未在公开版承诺硬上限 | 作为后续隔离升级项，不写成已支持能力 |
 | 任意陌生仓库 | 不承诺安全执行 | `docs/security-boundary.md` |
 
