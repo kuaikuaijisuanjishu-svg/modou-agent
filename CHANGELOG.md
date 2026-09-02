@@ -4,6 +4,11 @@ All notable public changes are documented here. This log covers only the sanitiz
 
 ## [Unreleased]
 
+### Changed
+
+- README now carries a current-status table sourced from the capability registry, states the verified Python and Node.js versions, and documents the Chromium and virtual-environment prerequisites of the end-to-end check.
+- The public release rules and security boundary now state that only `main` and `v*` tags reach the public repository.
+
 ## [0.1.1] - 2026-09-02
 
 ### Security

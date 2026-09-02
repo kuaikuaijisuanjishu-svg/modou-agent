@@ -23,4 +23,8 @@
 
 ## 发布边界
 
-发布前运行 `python tools/public_release_check.py`。如果检查失败，不应将目录提交或推送到公开仓库。公开仓库还应在 GitHub 侧启用 Pull Request 审查、分支保护、Secret Scanning 和 Push Protection（若当前计划支持）。
+发布前运行 `python tools/public_release_check.py`。如果检查失败，不应将目录提交或推送到公开仓库。
+
+公开仓库只接受两类 ref：`main` 分支与 `v*` 发布标签。集成分支、研究工作树和内部候选版本不进入公开 refs。推送纪律在客户端按两个维度拦截：ref 名称，以及被推送的树是否含研究目录——含研究目录的树即使推向 `main` 也会被拒绝。
+
+GitHub 侧启用 Secret Scanning 与 Push Protection。`main` 的每次推送和每个 `v*` 标签都由工作流复核同一组公开检查，标签还会额外重跑完整发布门禁。

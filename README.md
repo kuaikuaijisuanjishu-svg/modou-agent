@@ -33,7 +33,26 @@ AI 写出的补丁即使测试全绿，也不代表每一行新增代码都被�
 - **游离**：新增文件未进入已观察到的测试或引用路径。
 - **边界纪律**：结论只适用于实际运行的测试范围，不等于证明代码正确、可安全删除或语义等价。
 
+## 当前状态
+
+| 项目 | 状态 |
+| --- | --- |
+| 最新公开版本 | v0.1.1 |
+| 公开门禁 | 隐私与结构检查、Python 最小回归、前端单元测试、生产构建、浏览器端到端流程 |
+| 可逆反事实证据（核心闭环） | 已验证：公开演示可复现，最小回归通过 |
+| 完整 ddmin 最小化 | 实验性可选实现，不是默认演示路径 |
+| 惰性结论标签 | 已关闭，不进入公开三态结论 |
+| 后续版本能力 | 在非公开工作区验证中；未通过公开门槛前不进入本仓库，也不在此作能力承诺 |
+
+能力状态的机器可读来源是 [configs/capabilities.json](configs/capabilities.json)。发布检查会校验公开文档的措辞与该状态一致：为尚未验证的能力写下更强的结论会导致检查失败。
+
 ## 5 分钟运行公开演示
+
+### 环境要求
+
+- Python 3.11 及以上（持续集成在 3.12 上验证）
+- Node.js 22（持续集成验证版本）
+- 浏览器端到端检查还需要 Chromium：`(cd web && npx playwright install chromium)`
 
 ```bash
 git clone https://github.com/kuaikuaijisuanjishu-svg/modou-agent.git
@@ -64,10 +83,13 @@ python tools/public_release_check.py
 python tests/run.py
 (cd web && npm test)
 (cd web && npm run build)
+(cd web && npx playwright install chromium)
 (cd web && npm run test:e2e)
 ```
 
 以上命令也是 GitHub Actions 的发布门禁；端到端检查使用公开 fixture，并验证人工批准、真实服务链路和仓库路径边界。
+
+端到端检查会自行拉起一个真实服务进程，它使用当前 `PATH` 上的 Python。请在**已激活虚拟环境**的同一个终端里运行，否则该进程会因为找不到已安装的依赖而启动失败。
 
 ## 公开版与完整研究版的边界
 
@@ -95,6 +117,7 @@ python tests/run.py
 3. 新功能只有在公开代码、公开说明和公开验证同时具备时才进入 Release。
 4. 公开证据包移除绝对路径、源码正文、原始命令输出、原始模型响应和内部标识。
 5. Apache-2.0 仅适用于本仓库实际发布的文件；未进入本仓库的私有材料不因本许可证而获得授权。
+6. 只有 `main` 分支与 `v*` 发布标签会进入公开仓库。集成分支、研究工作树和内部候选版本不进入公开 refs，也不通过公开仓库中转。
 
 更具体的边界见 [docs/security-boundary.md](docs/security-boundary.md)，架构和资源边界见 [docs/architecture-overview.md](docs/architecture-overview.md)，漏洞请按 [SECURITY.md](SECURITY.md) 私下报告。
 
@@ -107,6 +130,8 @@ python tests/run.py
 | `web/` | 水木验码本地 Review Cockpit |
 | `configs/` | 脱敏的能力状态和演示预设 |
 | `tests/` | 公开边界的最小回归测试 |
+| `docs/` | 公开安全边界与架构说明 |
+| `.github/workflows/` | 公开持续集成与发布门禁 |
 | `tools/public_release_check.py` | 发布前隐私与结构检查 |
 
 ## 项目维护
@@ -154,7 +179,26 @@ Local Git repository + declared test scope
 - **Orphaned** — a new file is not reached by an observed test or reference path.
 - **Scope discipline** — findings apply only to the tests that actually ran. They do not prove correctness, safe deletion, or semantic equivalence.
 
+### Current status
+
+| Item | Status |
+| --- | --- |
+| Latest public release | v0.1.1 |
+| Public gate | privacy and structure check, minimal Python regression, frontend unit tests, production build, browser end-to-end flow |
+| Reversible counterfactual evidence (core loop) | Verified: reproducible from the public demo, minimal regression passing |
+| Full ddmin minimization | Experimental optional implementation, not the default demo path |
+| Inert finding label | Disabled; it does not enter the public three-state findings |
+| Later capabilities | Under verification in the non-public workspace. They do not enter this repository, and are not claimed here, before passing the public gate |
+
+The machine-readable source for capability state is [configs/capabilities.json](configs/capabilities.json). The release check verifies that public wording matches that state: writing a stronger conclusion than a capability's state supports makes the check fail.
+
 ### Run the public demo in five minutes
+
+#### Requirements
+
+- Python 3.11 or newer (continuous integration verifies 3.12)
+- Node.js 22 (the version verified in continuous integration)
+- The browser end-to-end check also needs Chromium: `(cd web && npx playwright install chromium)`
 
 ```bash
 git clone https://github.com/kuaikuaijisuanjishu-svg/modou-agent.git
@@ -185,10 +229,13 @@ python tools/public_release_check.py
 python tests/run.py
 (cd web && npm test)
 (cd web && npm run build)
+(cd web && npx playwright install chromium)
 (cd web && npm run test:e2e)
 ```
 
 These commands are also the GitHub Actions release gates. The end-to-end checks use public fixtures and verify the approval flow, the real service path, and repository-path boundaries.
+
+The end-to-end check starts a real service process of its own, using the Python found on the current `PATH`. Run it from the **same terminal where the virtual environment is activated**, otherwise that process fails to start because it cannot find the installed dependencies.
 
 ### Public package vs. private research workspace
 
@@ -216,6 +263,7 @@ It intentionally does not contain, and will not disclose through README files, c
 3. A feature enters a Release only when its public code, public explanation, and public verification are all present.
 4. Remove absolute paths, source bodies, raw command output, raw model responses, and internal identifiers from public evidence bundles.
 5. Apache-2.0 applies only to files actually published in this repository. Unpublished private materials receive no license from this repository.
+6. Only the `main` branch and `v*` release tags reach the public repository. Integration branches, research worktrees, and internal candidates never enter public refs and are never staged through this repository.
 
 See [docs/security-boundary.md](docs/security-boundary.md) for the detailed disclosure boundary, [docs/architecture-overview.md](docs/architecture-overview.md) for architecture and resource boundaries, and [SECURITY.md](SECURITY.md) for private vulnerability reports.
 
@@ -228,6 +276,8 @@ See [docs/security-boundary.md](docs/security-boundary.md) for the detailed disc
 | `web/` | Shuimu Yanma local Review Cockpit |
 | `configs/` | Sanitized capability state and demo presets |
 | `tests/` | Minimal regression tests for the public boundary |
+| `docs/` | Public security boundary and architecture notes |
+| `.github/workflows/` | Public continuous integration and release gates |
 | `tools/public_release_check.py` | Pre-release privacy and structure check |
 
 The `modou/` directory and related `MODOU_*` environment variables are retained as technical compatibility identifiers. They are internal implementation names, not the public product name.
