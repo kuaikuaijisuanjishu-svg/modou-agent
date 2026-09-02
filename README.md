@@ -8,7 +8,7 @@
 [![License](https://img.shields.io/badge/license-Apache--2.0-6C5CE7)](LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 
-当前公开版本：**v0.1.0**（评审展示版）
+当前公开版本：**v0.1.1**（评审展示版）
 
 “水木”取自“水木清华”的文化意象，“验码”对应对代码和测试证据的验证。本项目是独立参赛作品，不代表清华大学官方产品或官方背书。
 
@@ -127,7 +127,7 @@ python tests/run.py
 
 ## English
 
-### Shuimu Yanma v0.1.0
+### Shuimu Yanma v0.1.1
 
 > Use reversible experiments to verify whether newly added code is genuinely constrained by tests.
 

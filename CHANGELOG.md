@@ -4,12 +4,23 @@ All notable public changes are documented here. This log covers only the sanitiz
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-09-02
+
+### Security
+
+- Timed-out public commands now terminate the whole child process group instead of the direct child only, so descendants are no longer left running after a timeout.
+
 ### Added
 
 - Public Playwright flow covering approval, real fixture execution, named regression output, and repository path rejection.
 - Public architecture overview documenting responsibilities, evidence lifecycle, and resource-limit boundaries.
 - CI and release workflows now install Chromium and run the browser gate.
-- Timed-out public commands now terminate their whole child process group.
+- Review bundles now carry a `context.resource_policy` block recording which execution limits are enforced and which are explicitly not enforced.
+
+### Changed
+
+- Downloaded review bundles are now named `shuimu-yanma-review-<review_id>.json` instead of `modou-review-<review_id>.json`. Scripts matching the old filename need updating.
+- The local control-plane title, UI strings, and frontend package metadata now use the Shuimu Yanma name. The importable Python package is still `modou/`.
 
 ## [0.1.0] - 2026-09-01
 

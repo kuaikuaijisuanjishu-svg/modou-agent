@@ -390,7 +390,7 @@ function App() {
     <header>
       <div className="brand-lockup"><img src="/brand/shuimu-yancode-mark.svg" alt="水木验码图形标识" />
         <div><h1>水木验码</h1><p>SHUIMU YANMA · VERIFIABLE TEST PROTECTION</p></div>
-        <span className="version-badge">v0.1.0</span>
+        <span className="version-badge">v0.1.1</span>
       </div>
       <div className="header-controls">
         <div className="view-switch" aria-label="界面模式">
@@ -661,7 +661,7 @@ function App() {
       {evidenceDetail ? <EvidenceCard record={evidenceDetail} bundle={reviewBundle}/>
         : <details><summary>展开事件数据</summary><pre>{JSON.stringify(selected.data, null, 2)}</pre></details>}
     </aside>}
-    <footer><span>水木验码 v0.1.0 · 水木验码技术内核</span><span>运行来源 · {runMode}</span><span>执行模式 · {executionMode}</span><span>调度方式 · {schedulingMode}</span>
+    <footer><span>水木验码 v0.1.1 · 水木验码技术内核</span><span>运行来源 · {runMode}</span><span>执行模式 · {executionMode}</span><span>调度方式 · {schedulingMode}</span>
       <span>结论边界 · 仅限已声明测试范围，不代表语义等价</span></footer>
   </main>;
 }
