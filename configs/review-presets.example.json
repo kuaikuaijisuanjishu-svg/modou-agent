@@ -1,0 +1,14 @@
+[
+  {
+    "preset_id": "retry-demo",
+    "display_name": "退避逻辑演示",
+    "description": "在自足演示仓库中运行一次证据审查。",
+    "repo_name": "retry_demo",
+    "test_files": [
+      "tests/test_backoff.py"
+    ],
+    "goal": "审查补丁新增代码的证据边界",
+    "budget_seconds": 300,
+    "model_provider": "deterministic"
+  }
+]
