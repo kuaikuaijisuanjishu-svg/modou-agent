@@ -4,11 +4,15 @@
 > Verify whether newly added code is genuinely constrained by tests through reversible experiments.
 
 [![CI](https://github.com/kuaikuaijisuanjishu-svg/modou-agent/actions/workflows/ci.yml/badge.svg)](https://github.com/kuaikuaijisuanjishu-svg/modou-agent/actions/workflows/ci.yml)
-[![Release](https://img.shields.io/github/v/release/kuaikuaijisuanjishu-svg/modou-agent?display_name=tag)](https://github.com/kuaikuaijisuanjishu-svg/modou-agent/releases)
+[![Experimental release](https://img.shields.io/badge/release-v0.2.0--experimental.1-orange)](https://github.com/kuaikuaijisuanjishu-svg/modou-agent/releases/tag/v0.2.0-experimental.1)
 [![License](https://img.shields.io/badge/license-Apache--2.0-6C5CE7)](LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 
-当前公开版本：**v0.1.1**（评审展示版）
+最新公开实验版：**[v0.2.0-experimental.1](https://github.com/kuaikuaijisuanjishu-svg/modou-agent/releases/tag/v0.2.0-experimental.1)**，发布于 2026-09-08。
+
+这是 **experimental / opt-in** 的降级发布，`stable_eligible=false`。新增能力仅供明确选择启用的隔离试用；本版本不承诺第三方仓库兼容性或生产就绪。此前的 [v0.1.1 评审展示版](https://github.com/kuaikuaijisuanjishu-svg/modou-agent/releases/tag/v0.1.1)仍可单独获取。
+
+**验证边界：**AI 安全探针未执行，不能解释为零事件；六库兼容性试点两次方法作废后停止，没有正式 product-on 对照或 6/6 通过结论。详见[本版本发布说明](docs/release/v0.2.0-experimental.1.md)。
 
 “水木”取自“水木清华”的文化意象，“验码”对应对代码和测试证据的验证。本项目是独立参赛作品，不代表清华大学官方产品或官方背书。
 
@@ -37,14 +41,26 @@ AI 写出的补丁即使测试全绿，也不代表每一行新增代码都被�
 
 | 项目 | 状态 |
 | --- | --- |
-| 最新公开版本 | v0.1.1 |
-| 公开门禁 | 隐私与结构检查、Python 最小回归、前端单元测试、生产构建、浏览器端到端流程 |
+| 最新公开版本 | v0.2.0-experimental.1；Pre-release；experimental / opt-in；`stable_eligible=false` |
+| 本版本发布流水线 | 公开扫描与发布元数据检查通过；Python 冒烟测试 2 项、前端测试 46 项、浏览器端到端测试 2 项通过；前端构建成功 |
 | 可逆反事实证据（核心闭环） | 已验证：公开演示可复现，最小回归通过 |
+| Python 适配器、Vitest 与 Jest 适配器、候选修复 | 实验性可选实现（experimental / opt-in），默认关闭；尚无第三方仓库兼容性结论 |
 | 完整 ddmin 最小化 | 实验性可选实现，不是默认演示路径 |
 | 惰性结论标签 | 已关闭，不进入公开三态结论 |
-| 后续版本能力 | 在非公开工作区验证中；未通过公开门槛前不进入本仓库，也不在此作能力承诺 |
+| AI+Skill 安全探针 | 因环境与凭据预检阻塞，计划中的 10 个合成候选 session 未执行；不是已完成的安全验证或真人研究 |
+| 六库 product-off / product-on 试点 | 两次方法批次均在正式六库冻结前作废，失败预算 2/2 已用尽；未运行正式 product-on 对照 |
+| stable 门禁 | 独立隐藏 QA、独立 Linux 主机验证、授权私库试点、真人开发者研究、非实现者人工安全签字均未完成 |
 
 能力状态的机器可读来源是 [configs/capabilities.json](configs/capabilities.json)。发布检查会校验公开文档的措辞与该状态一致：为尚未验证的能力写下更强的结论会导致检查失败。
+
+发布流水线的记录见 [GitHub Actions](https://github.com/kuaikuaijisuanjishu-svg/modou-agent/actions/runs/34219991504)。这些检查支持公开演示和声明范围内的机器回归，不代表任意仓库适用性、完整安全认证、语义等价或代码可安全删除。
+
+## 试用前须知
+
+- 只在你信任的仓库和隔离环境中试用；Git 工作区隔离本身不是安全沙箱。
+- 先运行公开演示，再按明确范围选择启用实验性能力；保持人工审查与审批。
+- 本版本不承诺固定修复时限。发现安全问题时按 [SECURITY.md](SECURITY.md) 报告；若私密漏洞上报入口不可用，只提交请求私密联系方式的最小 issue，不要公开漏洞细节、凭据、私有路径或源码。
+- AI 探针和六库兼容性验证留待后续版本重新计划，本版本不会开启第三批六库追跑。
 
 ## 5 分钟运行公开演示
 
@@ -55,7 +71,7 @@ AI 写出的补丁即使测试全绿，也不代表每一行新增代码都被�
 - 浏览器端到端检查还需要 Chromium：`(cd web && npx playwright install chromium)`
 
 ```bash
-git clone https://github.com/kuaikuaijisuanjishu-svg/modou-agent.git
+git clone --branch v0.2.0-experimental.1 https://github.com/kuaikuaijisuanjishu-svg/modou-agent.git
 cd modou-agent
 python3 -m venv .venv
 source .venv/bin/activate
@@ -87,7 +103,7 @@ python tests/run.py
 (cd web && npm run test:e2e)
 ```
 
-以上命令也是 GitHub Actions 的发布门禁；端到端检查使用公开 fixture，并验证人工批准、真实服务链路和仓库路径边界。
+以上命令覆盖公开扫描和测试；正式发布流水线还核对冻结提交、公开树指纹和 Notes。端到端检查使用公开 fixture，并验证人工批准、真实服务链路和仓库路径边界。
 
 端到端检查会自行拉起一个真实服务进程，它使用当前 `PATH` 上的 Python。请在**已激活虚拟环境**的同一个终端里运行，否则该进程会因为找不到已安装的依赖而启动失败。
 
@@ -114,7 +130,7 @@ python tests/run.py
 
 1. 只从事先建立的公开白名单中选择文件，不从完整研究版整体复制。
 2. 每次发布先运行敏感信息与目录边界检查，再运行最小测试和前端构建。
-3. 新功能只有在公开代码、公开说明和公开验证同时具备时才进入 Release。
+3. 实验性可选实现必须披露启用方式、证据范围和未完成验证；只有补齐对应证据后才能升级为已验证能力。
 4. 公开证据包移除绝对路径、源码正文、原始命令输出、原始模型响应和内部标识。
 5. Apache-2.0 仅适用于本仓库实际发布的文件；未进入本仓库的私有材料不因本许可证而获得授权。
 6. 只有 `main` 分支与 `v*` 发布标签会进入公开仓库。集成分支、研究工作树和内部候选版本不进入公开 refs，也不通过公开仓库中转。
@@ -152,11 +168,15 @@ python tests/run.py
 
 ## English
 
-### Shuimu Yanma v0.1.1
+### Shuimu Yanma v0.2.0-experimental.1
 
 > Use reversible experiments to verify whether newly added code is genuinely constrained by tests.
 
 **Shuimu Yanma** is a sanitized, runnable public showcase for evidence-based code review. The Chinese name combines the cultural image of *shuimu* (water and wood) with *yanma* (code verification). This is an independent competition project; it is not an official Tsinghua University product and carries no institutional endorsement.
+
+The latest public experimental release is **[v0.2.0-experimental.1](https://github.com/kuaikuaijisuanjishu-svg/modou-agent/releases/tag/v0.2.0-experimental.1)**, published on 2026-09-08. It follows the degraded release path, remains **experimental / opt-in**, and has `stable_eligible=false`. It makes no third-party repository compatibility or production-readiness claim. The earlier [v0.1.1 showcase](https://github.com/kuaikuaijisuanjishu-svg/modou-agent/releases/tag/v0.1.1) remains available separately.
+
+**Validation limits:** the AI safety probe was not executed; this is not a zero-event result. The six-repository trial stopped after two method invalidations, without a formal product-on comparison or a six-of-six passing result. See the [release notes](docs/release/v0.2.0-experimental.1.md).
 
 ### What problem does it solve?
 
@@ -183,14 +203,26 @@ Local Git repository + declared test scope
 
 | Item | Status |
 | --- | --- |
-| Latest public release | v0.1.1 |
-| Public gate | privacy and structure check, minimal Python regression, frontend unit tests, production build, browser end-to-end flow |
+| Latest public release | v0.2.0-experimental.1; Pre-release; experimental / opt-in; `stable_eligible=false` |
+| Release workflow for this version | Public scan and release metadata checks passed; 2 Python smoke tests, 46 frontend tests, and 2 browser end-to-end tests passed; frontend build succeeded |
 | Reversible counterfactual evidence (core loop) | Verified: reproducible from the public demo, minimal regression passing |
+| Python adapter, Vitest and Jest adapters, repair candidates | Experimental / opt-in implementations, disabled by default; third-party repository compatibility has not been established |
 | Full ddmin minimization | Experimental optional implementation, not the default demo path |
 | Inert finding label | Disabled; it does not enter the public three-state findings |
-| Later capabilities | Under verification in the non-public workspace. They do not enter this repository, and are not claimed here, before passing the public gate |
+| AI+Skill safety probe | Environment and credential preflight blocked execution of the 10 planned synthetic candidate sessions; neither completed safety validation nor a human study |
+| Six-repository product-off / product-on trial | Both method batches were invalidated before the formal six-repository freeze; the 2/2 failure budget is exhausted; no formal product-on comparison ran |
+| Stable gates | Independent hidden QA, independent Linux-host validation, authorized private-repository pilot, real-developer study, and independent human security sign-off remain pending |
 
 The machine-readable source for capability state is [configs/capabilities.json](configs/capabilities.json). The release check verifies that public wording matches that state: writing a stronger conclusion than a capability's state supports makes the check fail.
+
+The release workflow is recorded in [GitHub Actions](https://github.com/kuaikuaijisuanjishu-svg/modou-agent/actions/runs/34219991504). These checks support the public demo and machine regression within the declared scope. They do not establish suitability for arbitrary repositories, complete security certification, semantic equivalence, or safe deletion.
+
+### Before trying this release
+
+- Use only repositories you trust, in an isolated environment. Git worktree isolation alone is not a security sandbox.
+- Start with the public demo, then explicitly opt in to experimental capabilities for a declared scope; retain human review and approval.
+- This release has no fixed remediation-time commitment. Follow [SECURITY.md](SECURITY.md) for reporting. If private vulnerability reporting is unavailable, open only a minimal issue requesting a private contact channel; do not post exploit details, credentials, private paths, or source code.
+- The AI probe and compatibility trial require a new plan for a later version. This release will not start a third six-repository batch.
 
 ### Run the public demo in five minutes
 
@@ -201,7 +233,7 @@ The machine-readable source for capability state is [configs/capabilities.json](
 - The browser end-to-end check also needs Chromium: `(cd web && npx playwright install chromium)`
 
 ```bash
-git clone https://github.com/kuaikuaijisuanjishu-svg/modou-agent.git
+git clone --branch v0.2.0-experimental.1 https://github.com/kuaikuaijisuanjishu-svg/modou-agent.git
 cd modou-agent
 python3 -m venv .venv
 source .venv/bin/activate
@@ -233,7 +265,7 @@ python tests/run.py
 (cd web && npm run test:e2e)
 ```
 
-These commands are also the GitHub Actions release gates. The end-to-end checks use public fixtures and verify the approval flow, the real service path, and repository-path boundaries.
+These commands cover the public scan and tests. The release workflow additionally verifies the frozen commit, public-tree fingerprint, and Notes. The end-to-end checks use public fixtures and verify the approval flow, the real service path, and repository-path boundaries.
 
 The end-to-end check starts a real service process of its own, using the Python found on the current `PATH`. Run it from the **same terminal where the virtual environment is activated**, otherwise that process fails to start because it cannot find the installed dependencies.
 
@@ -260,7 +292,7 @@ It intentionally does not contain, and will not disclose through README files, c
 
 1. Select files only from a pre-established public allowlist; never copy the complete research workspace wholesale.
 2. Run sensitive-data and structure checks before the minimal tests and frontend build for every release.
-3. A feature enters a Release only when its public code, public explanation, and public verification are all present.
+3. Experimental optional implementations must disclose how to opt in, their evidence scope, and incomplete validation. A capability becomes verified only after its required evidence is complete.
 4. Remove absolute paths, source bodies, raw command output, raw model responses, and internal identifiers from public evidence bundles.
 5. Apache-2.0 applies only to files actually published in this repository. Unpublished private materials receive no license from this repository.
 6. Only the `main` branch and `v*` release tags reach the public repository. Integration branches, research worktrees, and internal candidates never enter public refs and are never staged through this repository.
