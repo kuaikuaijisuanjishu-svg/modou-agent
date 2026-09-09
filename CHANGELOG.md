@@ -6,8 +6,30 @@ All notable public changes are documented here. This log covers only the sanitiz
 
 ### Changed
 
-- README now carries a current-status table sourced from the capability registry, states the verified Python and Node.js versions, and documents the Chromium and virtual-environment prerequisites of the end-to-end check.
+- The README now separates the stable showcase release from the latest experimental prerelease and states what the experimental one has not established, instead of naming a single current public version.
 - The public release rules and security boundary now state that only `main` and `v*` tags reach the public repository.
+
+## [0.2.0-experimental.1] - 2026-09-08
+
+Opt-in experimental prerelease. Not stable, not generally available, not production-ready. Published on the degraded release path, meaning the release proceeded with parts of its planned validation unfinished and disclosed rather than with those parts passing.
+
+### Added
+
+- Candidate repair, the Vitest adapter and the Jest adapter ship disabled by default. They run only when explicitly enabled, against a repository you trust, in an isolated environment.
+
+### Changed
+
+- The README carries a current-status table sourced from the capability registry, states the verified Python and Node.js versions, and documents the Chromium and virtual-environment prerequisites of the end-to-end check.
+
+### Not established by this release
+
+- Third-party repository compatibility. Both public-matrix method batches were invalidated before the formal six-repository denominator was frozen, so no fixed six-repository sample and no formal product-on comparison exist. The release makes no compatibility claim for pytest, Vitest or Jest repositories, and does not read a precheck failure as product incompatibility.
+- The UI comprehension probe. Its batch was environment-blocked and never executed. Zero executed sessions is not a zero-event result, and the ten planned AI-and-Skill synthetic sessions are not human participants and are not a human-factors finding.
+- Independent hidden QA, an independent Linux host run, an authorized private-repository pilot, a real-developer study, and manual security sign-off. All five remain open and are required before any stable promotion.
+
+### Security
+
+- Report vulnerabilities through the repository's private vulnerability reporting channel. The experimental release carries no fixed remediation-time commitment; maintainers may withdraw the release or disable an affected capability before shipping a fix.
 
 ## [0.1.1] - 2026-09-02
 
