@@ -13,6 +13,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # The public release check compares this checkout against public
+          # main. A pull-request build checks out the merge ref with a single
+          # branch, so without full history there is no main to compare to.
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"

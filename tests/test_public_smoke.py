@@ -222,3 +222,48 @@ def test_repair_generation_reads_a_data_policy_field_that_exists():
     source = (Path(__file__).resolve().parents[1] /
               "modou" / "server" / "control.py").read_text(encoding="utf-8")
     assert "data_policy.allowed_categories" not in source
+
+
+def test_public_ref_resolves_on_a_pull_request_checkout():
+    """The release check has to work on a branch, not only on main.
+
+    A pull-request build checks out the merge ref with a single branch, so
+    there is no local `main`, and an ordinary feature branch carries no merge
+    commit to read a public baseline out of. Both assumptions were baked in,
+    and the first pull request this repository ever received failed the check
+    with a bare `CalledProcessError`.
+    """
+    import tools.public_release_check as check
+
+    root = Path(tempfile.mkdtemp())
+    try:
+        repo = root / "repo"
+        repo.mkdir()
+        _git(repo, "init", "-q", "-b", "main", ".")
+        _git(repo, "config", "user.email", "smoke@example.invalid")
+        _git(repo, "config", "user.name", "smoke")
+        (repo / "a.txt").write_text("base\n", encoding="utf-8")
+        _git(repo, "add", "-A")
+        _git(repo, "commit", "-qm", "base")
+        main_head = subprocess.run(
+            ["git", "rev-parse", "HEAD"], cwd=repo, check=True,
+            capture_output=True, text=True).stdout.strip()
+        # A linear branch off main, exactly the shape of a contributor's PR.
+        _git(repo, "checkout", "-q", "-b", "feature")
+        (repo / "a.txt").write_text("changed\n", encoding="utf-8")
+        _git(repo, "commit", "-qam", "change")
+        branch_head = subprocess.run(
+            ["git", "rev-parse", "HEAD"], cwd=repo, check=True,
+            capture_output=True, text=True).stdout.strip()
+        # The pull-request checkout has no local `main` at all.
+        _git(repo, "branch", "-D", "main")
+
+        original_root = check.ROOT
+        try:
+            check.ROOT = repo
+            # Stands in for the remote-tracking ref a real CI checkout carries.
+            assert check._pinned_public_ref(branch_head, main_head) == main_head
+        finally:
+            check.ROOT = original_root
+    finally:
+        shutil.rmtree(root, ignore_errors=True)

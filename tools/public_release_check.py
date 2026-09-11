@@ -172,6 +172,14 @@ def _pinned_public_ref(head: str, public_head: str) -> str:
     if head == public_head:
         return public_head
     merge = _git_text("log", "--merges", "-1", "--format=%H", head)
+    if not merge:
+        # An ordinary branch cut from public main, with no merge to read a
+        # baseline out of. Its merge base with public main *is* the public
+        # commit it was built on, and by construction that commit belongs to
+        # public main's history — the same invariant the parent selection
+        # below checks for. Without this, every pull request failed the check
+        # on `git show -s --format=%P ''`.
+        return _git_text("merge-base", head, public_head)
     parents = _git_text("show", "-s", "--format=%P", merge).split()
     if public_head in parents:
         return public_head
@@ -280,14 +288,34 @@ def _scan_materialized_root(root: Path) -> tuple[
     return findings, attributed, len(files)
 
 
+def _public_head() -> str:
+    """Resolve public main, however this checkout happens to spell it.
+
+    A pull-request build checks out the merge ref with a single branch, so
+    there is no local `main` to read; the same is true of any shallow clone of
+    a feature branch. Try the remote-tracking spellings before giving up, and
+    name what was tried when none resolves — `CalledProcessError` alone sent
+    the reader looking for a broken release check rather than a missing ref.
+    """
+    attempts = ("main", "origin/main", "refs/remotes/origin/main")
+    for ref in attempts:
+        try:
+            return _git_text("rev-parse", "--verify", f"{ref}^{{commit}}")
+        except (OSError, subprocess.CalledProcessError):
+            continue
+    raise ValueError(
+        "cannot resolve public main; tried " + ", ".join(attempts) +
+        " (a pull-request or shallow checkout needs fetch-depth: 0)")
+
+
 def _scan(scope: str) -> tuple[list[str], dict[str, list[dict[str, str]]], int]:
     if scope == "public":
         try:
             head = _git_text("rev-parse", "HEAD")
-            public_head = _git_text("rev-parse", "main")
+            public_head = _public_head()
             public_ref = _pinned_public_ref(head, public_head)
         except (OSError, ValueError, subprocess.CalledProcessError) as exc:
-            return ([f"public ref unavailable: {type(exc).__name__}"],
+            return ([f"public ref unavailable: {type(exc).__name__}: {exc}"],
                     {"B": [], "C": []}, 0)
         if head != public_head:
             # The internal RC contains overlapping private files, so scanning
