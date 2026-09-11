@@ -160,7 +160,7 @@ def analyze_patch(req: AnalysisRequest) -> RunHandle:
     `status=FAILED` 的句柄，带上失败阶段。返回一个"看起来正常"的空结果，
     比抛异常危险得多。
     """
-    from tools.run_one import InstanceFailed, analyze_resolved
+    from modou.analysis import InstanceFailed, analyze_resolved
     from .executor import (SandboxedExecutor, TrustedLocalExecutor,
                            execution_scope)
 
