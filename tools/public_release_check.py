@@ -249,8 +249,13 @@ def _scan_tree(*, scope: str, root: Path, all_files: list[Path],
         registry = capabilities.load(root / "configs" / "capabilities.json")
         findings.extend(str(item) for item in capabilities.missing_evidence(
             registry, repo=root))
+        # Scan exactly the files this check reports on. Left to its own
+        # discovery, `check_documents` walks the whole tree and picks up
+        # `web/node_modules`, so running the two commands the README prescribes
+        # — `npm ci` then this check — reported a capability violation in a
+        # vendored README.
         findings.extend(str(item) for item in capabilities.check_documents(
-            root, capabilities=registry))
+            root, capabilities=registry, paths=list(all_files)))
     except Exception as exc:
         findings.append(f"capability registry invalid: {type(exc).__name__}: {exc}")
     return findings, attributed

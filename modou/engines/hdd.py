@@ -144,6 +144,17 @@ def run(ws, adapter, *, path: str, added: set[int], pending: set[int],
             resolved |= set(node.span) & remaining()
             continue
 
+        # 向量变了，却没有任何 passed→回归 的具名转变（例如基线 skipped 的
+        # 测试这次跑了起来）。这不是"删除导致测试红了"，不能拿来签承重——
+        # ClaimBuilder 也会因为「没有具名回归」直接拒绝并让整次运行失败。
+        # 在这里判掉，退化成未标注，而不是把一次无效观测送进证据链。
+        if vector is not None and not vector.regressions(baseline):
+            unit.verdict = Label.UNLABELED
+            for ln in set(node.span) & remaining():
+                unresolved[ln] = Unlabeled.NOT_ISOLATED
+                resolved.add(ln)
+            continue
+
         # ③ 出现回归：先确认回滚干净，再决定下钻还是定案
         if not budget.can_probe():
             for ln in set(node.span) & remaining():

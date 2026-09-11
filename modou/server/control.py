@@ -1389,7 +1389,7 @@ class ReviewManager:
         expected_snapshot = request.get("source_snapshot") or {}
         current_snapshot = _repo_snapshot(repo.path)
         if (expected_snapshot.get("head") != current_snapshot.get("head") or
-                expected_snapshot.get("status_sha256") != current_snapshot.get("status_sha256")):
+                expected_snapshot.get("snapshot_sha256") != current_snapshot.get("snapshot_sha256")):
             raise IntakeError("SOURCE_SNAPSHOT_CHANGED", "仓库在审查后发生变化，不能交付旧证据对应的补丁")
         plan = rt.frozen_plan.as_dict() if rt.frozen_plan is not None else _read_json(rt.review_dir / "plan.frozen.json")
         plan_sha256 = str(plan.get("plan_sha256") or "")
@@ -1507,7 +1507,7 @@ class ReviewManager:
         spec = rt.review_spec
         if spec is None or not spec.autonomy_policy.allow_repair_branch:
             raise IntakeError("REPAIR_NOT_AUTHORIZED", "repair generation was not approved")
-        if "selected_snippets" not in spec.data_policy.allowed_categories:
+        if "selected_snippets" not in spec.data_policy.model_data_categories:
             raise IntakeError("REPAIR_DATA_NOT_AUTHORIZED", "selected_snippets was not approved for model transfer")
         plan = rt.frozen_plan.as_dict() if rt.frozen_plan else _read_json(rt.review_dir / "plan.frozen.json")
         context = RepairContext(
@@ -2179,20 +2179,50 @@ def _payload_sha256(payload: dict) -> str:
 
 
 def _repo_snapshot(repo: Path) -> dict:
-    """Capture the minimum source identity needed for a safe resume."""
+    """Capture the source identity needed for a safe resume.
+
+    `git status --porcelain` alone is not enough: editing an already-modified
+    file leaves the status line byte-identical, so a snapshot built only from
+    it cannot tell "the review target I planned against" from "someone edited
+    that file again since". Both the approval gate and repair delivery rely on
+    this digest to refuse stale work, so the working-tree *content* has to be
+    part of it: the tracked diff against HEAD, plus the bytes of every
+    untracked file the status lists.
+    """
     try:
         head = run_git(["rev-parse", "HEAD"], cwd=repo, check=True,
                        timeout=10).stdout.strip()
-        status = run_git(["status", "--porcelain=v1"], cwd=repo, check=True,
-                         timeout=10).stdout
+        status = run_git(["status", "--porcelain=v1", "-uall"], cwd=repo,
+                         check=True, timeout=10).stdout
+        tracked_diff = run_git(["diff", "--binary", "HEAD"], cwd=repo,
+                               check=True, timeout=30).stdout
     except (OSError, subprocess.SubprocessError):
-        return {"head": "", "dirty": True, "status_sha256": ""}
+        return {"head": "", "dirty": True, "status_sha256": "",
+                "content_sha256": "", "snapshot_sha256": ""}
     status_sha256 = hashlib.sha256(status.encode("utf-8")).hexdigest()
+    content = hashlib.sha256()
+    content.update(tracked_diff.encode("utf-8", errors="surrogateescape"))
+    for line in status.splitlines():
+        if not line.startswith("?? "):
+            continue
+        # `-uall` lists untracked files individually, so each entry is a real
+        # path; quoted names come back from core.quotepath and are hashed as
+        # written rather than unquoted, which is fine — the digest only has to
+        # change when the tree changes.
+        relative = line[3:].strip().strip('"')
+        try:
+            blob = (repo / relative).read_bytes()
+        except OSError:
+            blob = b"<unreadable>"
+        content.update(relative.encode("utf-8"))
+        content.update(hashlib.sha256(blob).digest())
+    content_sha256 = content.hexdigest()
     snapshot_sha256 = hashlib.sha256(json.dumps(
-        {"head": head, "status_sha256": status_sha256}, sort_keys=True,
+        {"head": head, "status_sha256": status_sha256,
+         "content_sha256": content_sha256}, sort_keys=True,
         separators=(",", ":")).encode("utf-8")).hexdigest()
     return {"head": head, "dirty": bool(status), "status_sha256": status_sha256,
-            "snapshot_sha256": snapshot_sha256}
+            "content_sha256": content_sha256, "snapshot_sha256": snapshot_sha256}
 
 
 def _tool_commit() -> str:

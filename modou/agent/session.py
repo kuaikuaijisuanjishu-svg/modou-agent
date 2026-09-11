@@ -20,7 +20,7 @@ from modou.adapters import declared_tests, map_test_ids, TestIdError
 from modou import ddmin as ddmin_mod
 from modou.engines import drift, hdd, unevidenced
 from modou.gitinfo import current_tool_commit
-from modou.models import EvidenceUnit, RunManifest, sha256_text
+from modou.models import EvidenceUnit, RunManifest, TestStatus, sha256_text
 from modou.testrange import (collect_nodeids, JUnitUnusable, run_declared,
                              TestRangeError)
 from modou.workspace import prepare, WorkspaceError
@@ -142,6 +142,7 @@ class AnalysisSession:
         self.universe: tuple[str, ...] = ()
         self.completed: set[str] = set()
         self.base = None
+        self.baseline_skipped: tuple[str, ...] = ()
         self.cov = None
         self.runner = None
         self.bud = None
@@ -296,10 +297,22 @@ class AnalysisSession:
             self._fail("junit", str(exc)[:200], exc)
         except TestRangeError as exc:
             self._fail("baseline_run", str(exc)[:200], exc)
-        if not self.base.vector.all_passed:
-            bad = [(t, s.value) for t, s in self.base.vector.as_dict().items()
-                   if s.value != "passed"]
-            self._fail("baseline_green", f"{len(bad)}/{len(self.base.vector)} 项非 passed：{bad[:3]}")
+        # A baseline test that is skipped can never carry counterfactual
+        # evidence — it does not run, so removing code cannot change it — but
+        # it is also not a broken baseline. Real repositories skip on platform
+        # and optional dependencies constantly, so failing the whole review on
+        # one `skipif` would reject almost every external repository. Only a
+        # genuinely bad baseline (failed / error) or an unrunnable declared id
+        # (missing) makes the counterfactual comparison meaningless.
+        baseline_states = self.base.vector.as_dict()
+        blocking = [(t, s.value) for t, s in baseline_states.items()
+                    if s not in (TestStatus.PASSED, TestStatus.SKIPPED)]
+        if blocking:
+            self._fail("baseline_green",
+                       f"{len(blocking)}/{len(self.base.vector)} 项既非 passed 也非 skipped："
+                       f"{blocking[:3]}")
+        self.baseline_skipped = tuple(sorted(
+            t for t, s in baseline_states.items() if s is TestStatus.SKIPPED))
         try:
             self.cov = cov_mod.collect(
                 self.ws.python, self.ws.path, data_file, t0, self.test_files,
@@ -326,7 +339,10 @@ class AnalysisSession:
         self.bud = budget.Budget.start(self.base.seconds, started=self.t_start)
         self.phase = SessionPhase.BASELINE_COMPLETE
         data = {"seconds": round(self.base.seconds, 2),
-                "declared_tests": len(self.nodeids), "all_passed": True}
+                "declared_tests": len(self.nodeids),
+                "all_passed": not self.baseline_skipped,
+                "evidence_bearing_tests": len(self.nodeids) - len(self.baseline_skipped),
+                "baseline_skipped": list(self.baseline_skipped)}
         self._emit("baseline.completed", data)
         # Deliberately after the budget starts and after `baseline.completed`:
         # routing reads source and parses ASTs, it never runs a test, so it must
@@ -631,6 +647,12 @@ class AnalysisSession:
         summary["seconds"] = round(time.time() - self.t_start, 1)
         summary["baseline_seconds"] = round(self.base.seconds, 2)
         summary["declared_tests"] = len(self.nodeids)
+        # Skipped-at-baseline tests stay in the declared scope and in every
+        # vector comparison, but they can never produce a named regression.
+        # Naming them keeps the "口径" honest about how many tests the
+        # findings could actually have come from.
+        summary["baseline_skipped_tests"] = list(self.baseline_skipped)
+        summary["evidence_bearing_tests"] = len(self.nodeids) - len(self.baseline_skipped)
         summary["analysis_completion"] = "partial" if partial else "complete"
         summary["stop_reason"] = stop_reason
         summary["probe_strategy"] = self.probe_strategy.value
