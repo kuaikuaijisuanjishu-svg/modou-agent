@@ -1,0 +1,29 @@
+{
+  "name": "水木验码 · 测试保护验证工作台",
+  "short_name": "水木验码",
+  "description": "通过可逆实验，检查新增代码是否真正受到测试保护。",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f3eee2",
+  "theme_color": "#f3eee2",
+  "icons": [
+    {
+      "src": "/brand/shuimu-yancode-mark-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/brand/app-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/brand/shuimu-yancode-mark-1024.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

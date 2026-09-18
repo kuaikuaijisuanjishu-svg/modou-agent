@@ -1,0 +1,19 @@
+{
+  "name": "shuimu-evidence", "displayName": "水木验码 · 测试证据", "version": "0.2.0",
+  "publisher": "shuimu-local", "description": "连接本地水木验码后台，创建证据任务、打开任务与查看回执。",
+  "engines": {"vscode": "^1.85.0"}, "categories": ["Testing"], "main": "./extension.js",
+  "extensionKind": ["workspace"], "capabilities": {"untrustedWorkspaces": {"supported": false}, "virtualWorkspaces": false},
+  "contributes": {
+    "commands": [
+      {"command": "shuimu.reviewCurrentChange", "title": "水木验码：验收当前改动"},
+      {"command": "shuimu.openTask", "title": "水木验码：打开任务"},
+      {"command": "shuimu.viewReceipt", "title": "水木验码：查看回执"},
+      {"command": "shuimu.checkDelegated", "title": "水木验码：检查受托任务"}
+    ],
+    "configuration": {"title": "水木验码", "properties": {
+      "shuimu.server": {"type": "string", "default": "http://127.0.0.1:8765", "scope": "machine", "description": "已经运行的本地后台地址。"},
+      "shuimu.pythonPath": {"type": "string", "default": "python3", "scope": "machine", "description": "水木验码 Python 解释器路径。"},
+      "shuimu.projectPath": {"type": "string", "default": "", "scope": "machine", "description": "包含 modou/task_client.py 的水木验码安装目录。"}
+    }}
+  }
+}

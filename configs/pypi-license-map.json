@@ -1,0 +1,146 @@
+{
+  "schema_version": "pypi-license-map-v1",
+  "generated_at": "2026-09-08T11:48:49.328036+00:00",
+  "lock_file": "requirements-agent.lock",
+  "entry_count": 27,
+  "unresolved": [],
+  "unresolved_count": 0,
+  "complete": true,
+  "entries": {
+    "Pygments": {
+      "version": "2.21.0",
+      "license": "BSD-2-Clause",
+      "source": "METADATA:License-Expression"
+    },
+    "annotated-doc": {
+      "version": "0.0.5",
+      "license": "MIT",
+      "source": "METADATA:License-Expression"
+    },
+    "annotated-types": {
+      "version": "0.8.0",
+      "license": "MIT",
+      "source": "METADATA:License-Expression"
+    },
+    "anyio": {
+      "version": "4.14.2",
+      "license": "MIT",
+      "source": "METADATA:License-Expression"
+    },
+    "attrs": {
+      "version": "26.1.0",
+      "license": "MIT",
+      "source": "METADATA:License-Expression"
+    },
+    "certifi": {
+      "version": "2026.7.22",
+      "license": "Mozilla Public License 2.0 (MPL 2.0)",
+      "source": "METADATA:Classifier"
+    },
+    "click": {
+      "version": "8.4.2",
+      "license": "BSD-3-Clause",
+      "source": "METADATA:License-Expression"
+    },
+    "coverage": {
+      "version": "7.13.4",
+      "license": "Apache-2.0",
+      "source": "METADATA:License"
+    },
+    "fastapi": {
+      "version": "0.141.0",
+      "license": "MIT",
+      "source": "METADATA:License-Expression"
+    },
+    "h11": {
+      "version": "0.16.0",
+      "license": "MIT License",
+      "source": "METADATA:Classifier"
+    },
+    "httpcore": {
+      "version": "1.0.9",
+      "license": "BSD-3-Clause",
+      "source": "METADATA:License-Expression"
+    },
+    "httpx": {
+      "version": "0.28.1",
+      "license": "BSD License",
+      "source": "METADATA:Classifier"
+    },
+    "idna": {
+      "version": "3.19",
+      "license": "BSD-3-Clause",
+      "source": "METADATA:License-Expression"
+    },
+    "iniconfig": {
+      "version": "2.3.0",
+      "license": "MIT",
+      "source": "METADATA:License-Expression"
+    },
+    "jsonschema": {
+      "version": "4.25.1",
+      "license": "MIT",
+      "source": "METADATA:License-Expression"
+    },
+    "jsonschema-specifications": {
+      "version": "2025.9.1",
+      "license": "MIT",
+      "source": "METADATA:License-Expression"
+    },
+    "packaging": {
+      "version": "26.3",
+      "license": "Apache-2.0 OR BSD-2-Clause",
+      "source": "METADATA:License-Expression"
+    },
+    "pluggy": {
+      "version": "1.6.0",
+      "license": "MIT License",
+      "source": "METADATA:Classifier"
+    },
+    "pydantic": {
+      "version": "2.13.1",
+      "license": "MIT",
+      "source": "METADATA:License-Expression"
+    },
+    "pydantic_core": {
+      "version": "2.46.1",
+      "license": "MIT",
+      "source": "METADATA:License-Expression"
+    },
+    "pytest": {
+      "version": "9.0.2",
+      "license": "MIT",
+      "source": "METADATA:License-Expression"
+    },
+    "referencing": {
+      "version": "0.37.0",
+      "license": "MIT",
+      "source": "METADATA:License-Expression"
+    },
+    "rpds-py": {
+      "version": "2026.6.3",
+      "license": "MIT",
+      "source": "METADATA:License-Expression"
+    },
+    "starlette": {
+      "version": "1.6.0",
+      "license": "BSD-3-Clause",
+      "source": "METADATA:License-Expression"
+    },
+    "typing-inspection": {
+      "version": "0.4.4",
+      "license": "MIT",
+      "source": "METADATA:License-Expression"
+    },
+    "typing_extensions": {
+      "version": "4.16.0",
+      "license": "PSF-2.0",
+      "source": "METADATA:License-Expression"
+    },
+    "uvicorn": {
+      "version": "0.52.0",
+      "license": "BSD-3-Clause",
+      "source": "METADATA:License-Expression"
+    }
+  }
+}

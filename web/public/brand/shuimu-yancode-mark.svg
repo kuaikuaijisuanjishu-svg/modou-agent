@@ -1,0 +1,11 @@
+<!-- 标签页图标：与页面内的 BrandMark 是同一枚标识，三笔，任何尺寸都一样。
+     颜色在这里是写死的：标签栏不在页面上下文里，CSS 变量到不了。
+     取浅底正色对（#4C1D95 / #1F9D6B）——默认主题是米色纸面，且标签栏底色
+     多为浅色；深底那版留给 app-icon。 -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="水木验码">
+  <g fill="none" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <path stroke="#4C1D95" d="M22 11c-4 0-7 3-7 7v7c0 4-3 7-7 7c4 0 7 3 7 7v7c0 4 3 7 7 7"/>
+    <path stroke="#4C1D95" d="M42 11c4 0 7 3 7 7v7c0 4 3 7 7 7c-4 0-7 3-7 7v7c0 4-3 7-7 7"/>
+    <path stroke="#1F9D6B" d="M23 33.5l6 6.5L41 25"/>
+  </g>
+</svg>

@@ -1,0 +1,27 @@
+/* T06 组件先行的最小样式：只服务可读性，不改既有页面布局。 */
+.mv-section {border: 1px solid var(--border, #d0d4dc); border-radius: 8px;
+  padding: 12px 16px; display: grid; gap: 8px; background: #fff;}
+.mv-section h4 {margin: 0;}
+.mv-note {color: #5a6270; font-size: 13px; margin: 0;}
+.mv-invalid {color: #a4262c; font-weight: 600; margin: 0;}
+.mv-list {margin: 0; padding-left: 18px; display: grid; gap: 4px;}
+.mv-phases {margin: 0; padding-left: 18px; display: grid; gap: 4px;}
+.mv-phase-running {font-weight: 600;}
+.mv-budget, .mv-stop {margin: 0;}
+.mv-actions {display: flex; gap: 8px; align-items: center; flex-wrap: wrap;}
+.mv-chips {display: flex; gap: 6px; flex-wrap: wrap;}
+.mv-chip {border-radius: 999px; padding: 2px 10px; font-size: 13px; border: 1px solid #b6becd;}
+.mv-chip-info {background: #eef3fb; color: #2d5aa0;}
+.mv-chip-ok {background: #e9f6ec; color: #1c6b33;}
+.mv-chip-warn {background: #fdf3e2; color: #8a5a10;}
+.mv-chip-bad {background: #fbeceb; color: #a4262c;}
+.mv-dialog {max-width: 520px;}
+.mv-active-round {display: grid; gap: 6px;}
+.mv-history {display: grid; gap: 6px;}
+
+/* P0-02：旧轮次的时间线过渡标签与"历史依据"徽标 */
+.mv-historical {display: inline-block; margin-left: 8px; padding: 1px 8px;
+  border: 1px solid var(--warning-border, #d2a83f); border-radius: 6px;
+  color: var(--warning-bright, #e2c976); font-size: 12px;}
+.mv-timeline {display: flex; flex-wrap: wrap; gap: 6px; align-items: center;
+  margin: 0 0 6px; font-size: 13px; color: #5a6270;}

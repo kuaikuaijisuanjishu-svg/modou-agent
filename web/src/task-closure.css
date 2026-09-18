@@ -1,0 +1,70 @@
+.task-requirements { margin: 18px 0; padding: 18px; border: 1px solid var(--line, #ddd); border-radius: 12px; }
+.task-requirements h4 { margin: 0 0 12px; }
+.task-closure { width: 100%; min-width: 0; }
+.closure-lead { font-size: 22px; line-height: 1.5; }
+.closure-toolbar, .closure-task-header, .closure-criterion header { display: flex; justify-content: space-between; gap: 14px; align-items: center; flex-wrap: wrap; }
+.closure-toolbar { justify-content: flex-start; margin: 20px 0; }
+.closure-criterion { border: 1px solid var(--line, #ddd); border-radius: 16px; margin-top: 20px; padding: 24px; }
+.closure-criterion h4 { margin: 0; font-size: 20px; }
+.closure-criterion h5 { margin: 0 0 12px; font-size: 16px; }
+.closure-status { font-size: 13px; padding: 5px 10px; border: 1px solid currentColor; border-radius: 6px; }
+.closure-outcome { margin: 18px 0; padding: 18px; background: var(--surface-soft); border-left: 3px solid var(--text-soft); }
+.closure-outcome p { margin-bottom: 0; }
+.closure-criterion fieldset { padding: 18px; margin: 18px 0; border: 1px solid var(--line, #ddd); border-radius: 10px; min-width: 0; }
+.closure-options { display: flex; gap: 22px; flex-wrap: wrap; margin-bottom: 18px; }
+.closure-options label, .closure-confirm, .closure-findings label { display: flex; align-items: flex-start; gap: 10px; }
+.closure-criterion input[type="checkbox"], .closure-criterion input[type="radio"] { width: auto; margin: 3px 0; flex: 0 0 auto; }
+.closure-findings { max-height: 260px; overflow: auto; margin-bottom: 14px; }
+.closure-findings small { display: block; opacity: .7; overflow-wrap: anywhere; }
+.closure-error { border: 1px solid currentColor; padding: 14px; color: var(--text); }
+.closure-notice { padding: 14px; border-left: 3px solid currentColor; }
+.closure-bind, .closure-candidate, .closure-prepare, .closure-adoption, .closure-comparison { margin: 18px 0; }
+.closure-bind summary, .closure-comparison summary { cursor: pointer; font-weight: 600; margin-bottom: 12px; }
+.closure-candidate pre, .closure-comparison pre { background: var(--surface-soft); padding: 18px; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 400px; overflow: auto; line-height: 1.6; font-size: 13px; }
+.closure-digest, .closure-adoption code { overflow-wrap: anywhere; font-size: 12px; }
+.closure-adoption { padding: 20px; border: 2px solid var(--text-soft); border-radius: 12px; }
+.closure-adoption dl { display: grid; grid-template-columns: 140px 1fr; gap: 10px; }
+.closure-adoption dd { margin: 0; overflow-wrap: anywhere; }
+.closure-comparison > div { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.closure-comparison section { min-width: 0; }
+@media (max-width: 700px) { .closure-criterion { padding: 16px; } .closure-comparison > div { grid-template-columns: 1fr; } .closure-adoption dl { grid-template-columns: 1fr; } }
+.task-closure button:not(.primary) { padding: 10px 14px; min-height: 44px; background: var(--surface-raised); border: 1px solid var(--line-violet-strong); border-radius: 6px; color: var(--text-body); }
+.task-closure button:disabled { opacity: .45; cursor: not-allowed; }
+.task-closure a { color: var(--text-violet); text-underline-offset: 4px; }
+.task-closure button:focus-visible, .task-closure a:focus-visible { outline: 2px solid var(--violet); outline-offset: 3px; }
+.task-closure label:not(.closure-confirm), .task-requirements > label { margin-bottom: 12px; }
+.task-closure input:not([type="checkbox"]):not([type="radio"]), .task-closure select, .task-closure textarea, .task-requirements textarea { display: block; width: 100%; margin: 8px 0 14px; background: var(--bg-deep); border: 1px solid var(--line-strong); border-radius: 6px; color: var(--text-body); padding: 10px; resize: vertical; }
+.task-closure .closure-confirm input, .task-closure input[type="checkbox"], .task-closure input[type="radio"] { min-height: 0; width: 18px; height: 18px; margin-top: 4px; accent-color: var(--violet); }
+.closure-confirm { line-height: 1.7; margin: 16px 0; }
+.closure-experiment pre { max-height: 320px; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; }
+/* ---- P0-02：任务摘要卡与持续委托卡（青绿=有效，琥珀=待复验，红=终止/失败） ---- */
+.closure-summary { margin: 18px 0; padding: 18px 20px; border: 1px solid var(--line-violet-strong);
+  border-radius: 12px; background: var(--surface-soft); }
+.closure-summary-row { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 18px; }
+.closure-summary h4 { margin: 0 0 8px; font-size: 15px; }
+.closure-summary-row p { margin: 0; overflow-wrap: anywhere; }
+.closure-summary-next { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 14px;
+  padding-top: 14px; border-top: 1px solid var(--line); }
+.closure-summary-warn { color: var(--warning-bright); font-size: 13px; margin-top: 6px !important; }
+.tone-ok { color: var(--ok, #35b39a); }
+.tone-warn { color: var(--warning-bright); }
+.tone-danger { color: var(--danger-bright); }
+.tone-neutral { color: var(--text-body); }
+.closure-delegation { margin: 18px 0; padding: 18px 20px; border: 1px solid var(--line, #ddd);
+  border-radius: 12px; }
+.closure-delegation-header { display: flex; justify-content: space-between; align-items: center;
+  gap: 14px; flex-wrap: wrap; }
+.closure-delegation h4 { margin: 0; font-size: 17px; }
+.closure-delegation-state { margin: 14px 0; padding: 12px 14px; border-left: 3px solid currentColor;
+  display: grid; gap: 4px; }
+.closure-delegation-state strong { font-size: 15px; }
+.closure-delegation-state.tone-ok { background: var(--ok-bg, transparent); }
+.closure-delegation-state.tone-warn { background: var(--warn-bg, transparent); }
+.closure-delegation-state.tone-danger { background: var(--danger-bg, transparent); }
+.closure-delegation-facts { display: grid; grid-template-columns: 110px 1fr; gap: 8px 14px; margin: 0 0 12px; }
+.closure-delegation-facts dt { color: var(--text-soft); font-size: 13px; }
+.closure-delegation-facts dd { margin: 0; overflow-wrap: anywhere; }
+.closure-delegation-events summary { cursor: pointer; margin-bottom: 8px; }
+.closure-delegation-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 12px; }
+@media (max-width: 700px) { .closure-summary-row { grid-template-columns: 1fr; }
+  .closure-delegation-facts { grid-template-columns: 1fr; } }

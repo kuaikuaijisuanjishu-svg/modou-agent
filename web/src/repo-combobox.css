@@ -1,0 +1,149 @@
+/* 自定义仓库下拉（RepoCombobox）。
+   颜色一律走 styles.css 里已有的 token，深色板与 [data-theme="beige"] 米色板
+   靠 token 自动跟随；本文件不出现任何 #hex / rgb()。 */
+
+.repo-combobox {
+  position: relative;
+  display: block;
+  width: 100%;
+  min-width: 0;
+  margin: 0 0 15px;
+}
+
+/* ---- 触发器 ---------------------------------------------------- */
+
+.repo-combobox-trigger {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-width: 0;
+  min-height: var(--control-height, 40px);
+  padding: 8px 10px;
+  text-align: left;
+  font-family: var(--font-sans);
+  font-size: var(--font-size-md);
+  background: var(--bg-deep);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm, 6px);
+  color: var(--text-body);
+  cursor: pointer;
+}
+
+.repo-combobox-trigger:hover:not(:disabled) { border-color: var(--violet); }
+
+.repo-combobox-trigger:focus-visible {
+  outline: 2px solid var(--violet-bright);
+  outline-offset: 2px;
+}
+
+.repo-combobox-trigger[aria-expanded="true"] {
+  border-color: var(--violet);
+  box-shadow: 0 0 0 3px var(--violet-alpha-bg-strong);
+}
+
+.repo-combobox-trigger:disabled {
+  cursor: not-allowed;
+  opacity: .6;
+  color: var(--text-dim);
+}
+
+/* 文字列自己承担截断：min-width:0 是让 flex 子项允许收缩的关键，
+   否则长仓库名会把 280px 宽的容器撑破。 */
+.repo-combobox-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.repo-combobox-name,
+.repo-combobox-tech {
+  display: block;
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.repo-combobox-name { color: var(--text-body); line-height: 1.4; }
+
+.repo-combobox-tech {
+  color: var(--text-dim);
+  font-family: var(--mono);
+  font-size: var(--font-size-floor);
+  line-height: 1.4;
+}
+
+.repo-combobox-placeholder .repo-combobox-name { color: var(--text-dim); }
+
+.repo-combobox-caret {
+  flex: 0 0 auto;
+  color: var(--text-dim);
+  font-size: var(--font-size-floor);
+  line-height: 1;
+}
+
+.repo-combobox-trigger[aria-expanded="true"] .repo-combobox-caret { color: var(--violet-bright); }
+
+/* ---- 弹出列表 -------------------------------------------------- */
+
+.repo-combobox-list {
+  position: absolute;
+  z-index: 40;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 4px;
+  list-style: none;
+  max-height: 17rem;
+  overflow-y: auto;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm, 6px);
+  box-shadow: 0 10px 26px var(--shadow-2);
+  animation: repo-combobox-pop 110ms ease-out;
+}
+
+/* 作者样式里的 display 会盖掉 UA 的 [hidden]，必须自己写回来。 */
+.repo-combobox-list[hidden] { display: none; }
+
+@keyframes repo-combobox-pop {
+  from { opacity: 0; transform: translateY(-2px); }
+  to { opacity: 1; transform: none; }
+}
+
+.repo-combobox-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  padding: 7px 9px;
+  border-radius: var(--radius-sm, 6px);
+  cursor: pointer;
+  border-left: 2px solid transparent;
+}
+
+.repo-combobox-option[data-highlighted="true"] {
+  background: var(--surface-hover);
+  border-left-color: var(--violet);
+}
+
+.repo-combobox-option[aria-selected="true"] .repo-combobox-name { color: var(--violet-bright); }
+
+.repo-combobox-check {
+  flex: 0 0 auto;
+  width: 1em;
+  color: var(--violet-bright);
+  font-size: var(--font-size-floor);
+  line-height: 1;
+}
+
+/* ---- 动效尊重系统设置 ------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  .repo-combobox-list { animation: none; }
+}

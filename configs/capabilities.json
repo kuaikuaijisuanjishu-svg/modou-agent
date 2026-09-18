@@ -1,0 +1,176 @@
+{
+  "schema_version": "modou-capability-registry-v1",
+  "capabilities": [
+    {
+      "id": "counterfactual_evidence",
+      "title": "可逆反事实证据",
+      "state": "verified",
+      "runtime": "default",
+      "summary": "临时移除候选代码、重跑具名测试并校验工作区恢复。",
+      "gate": "公开演示能够生成脱敏证据包，且最小回归测试通过。",
+      "evidence": [
+        "tests/test_public_smoke.py",
+        "docs/security-boundary.md"
+      ],
+      "mentions": [
+        "反事实实验",
+        "counterfactual experiment"
+      ],
+      "disclosures": [],
+      "forbidden": [
+        {
+          "pattern": "(?:已经|可以|能够)证明.{0,12}(绝对正确|语义等价|安全删除)",
+          "why": "测试反事实只能支持声明测试范围内的证据结论。"
+        }
+      ]
+    },
+    {
+      "id": "ddmin",
+      "title": "完整 ddmin 最小化",
+      "state": "experimental",
+      "runtime": "opt_in",
+      "summary": "公开代码保留可选实现，但它会增加实验次数，不是默认演示路径。",
+      "gate": "需要独立的公开性能与稳定性证据后才能升级为已验证。",
+      "evidence": [],
+      "mentions": [
+        "\\bddmin\\b",
+        "1-minimal"
+      ],
+      "disclosures": [
+        "实验性",
+        "experimental",
+        "可选实现"
+      ],
+      "forbidden": [
+        {
+          "pattern": "ddmin.{0,20}(已经|已).{0,10}(最优|全面验证)",
+          "why": "公开包没有支持最优性或全面验证的证据。"
+        }
+      ]
+    },
+    {
+      "id": "inert_label",
+      "title": "惰性结论",
+      "state": "disabled",
+      "runtime": "unavailable",
+      "summary": "该标签不进入公开版正式三态结论。",
+      "gate": "只有新的公开可复现实验和人工复核均通过后才可重新评估。",
+      "evidence": [],
+      "mentions": [
+        "惰性结论",
+        "inert label"
+      ],
+      "disclosures": [
+        "已关闭",
+        "不进入",
+        "disabled"
+      ],
+      "forbidden": [
+        {
+          "pattern": "惰性结论.{0,12}(已启用|正式上线)",
+          "why": "该能力在公开运行时不可用。"
+        }
+      ]
+    },
+    {
+      "id": "python_local_review_loop",
+      "title": "Python 本地审查闭环",
+      "state": "experimental",
+      "runtime": "opt_in",
+      "summary": "以 python-pytest 适配器在隔离工作区完成可逆实验并签发证据。",
+      "gate": "升级为已验证需要：独立隐藏 QA 集、经许可的真实仓库灰度，以及公开仓库矩阵达到预注册分母。三者均未完成。",
+      "evidence": [
+        "modou/python_adapter.py",
+        "modou/language_adapter.py"
+      ],
+      "mentions": [
+        "python-pytest",
+        "Python 适配器",
+        "Python adapter"
+      ],
+      "disclosures": [
+        "实验性",
+        "experimental",
+        "opt-in",
+        "选择启用"
+      ],
+      "forbidden": [
+        {
+          "pattern": "Python.{0,12}(适配器|adapter).{0,20}(已全面验证|通过全部验收|generally available)",
+          "why": "公开仓库矩阵与独立 QA 均未完成，不存在支持该表述的证据。"
+        },
+        {
+          "pattern": "(适用于|支持).{0,10}任意.{0,6}(Python )?(仓库|repository)",
+          "why": "只在已声明的固定样本上测量过，未证明可推广到任意仓库。"
+        }
+      ]
+    },
+    {
+      "id": "typescript_adapters",
+      "title": "Vitest 与 Jest 适配器",
+      "state": "experimental",
+      "runtime": "opt_in",
+      "summary": "以锁文件安装、封闭执行并解析 JSON 报告，产出稳定测试身份。",
+      "gate": "升级需要公开仓库矩阵在预注册分母下达标，且 Vitest 与 Jest 分别裁决——一方通过不能替另一方背书。",
+      "evidence": [
+        "modou/typescript_adapter.py"
+      ],
+      "mentions": [
+        "\\bvitest\\b",
+        "\\bjest\\b",
+        "TypeScript 适配器",
+        "TypeScript adapter"
+      ],
+      "disclosures": [
+        "实验性",
+        "experimental",
+        "opt-in",
+        "选择启用"
+      ],
+      "forbidden": [
+        {
+          "pattern": "(Vitest|Jest).{0,20}(已验证|已达标|verified|production[- ]ready)",
+          "why": "第二轮公开仓库矩阵尚在进行，结论未出。"
+        },
+        {
+          "pattern": "(Vitest|Jest).{0,16}(同样|一并|均已)(通过|达标)",
+          "why": "两个适配器必须分别裁决，不得互相背书。"
+        }
+      ]
+    },
+    {
+      "id": "repair_candidate",
+      "title": "候选修复与本地交付",
+      "state": "experimental",
+      "runtime": "opt_in",
+      "summary": "在私有临时工作区生成并验证候选修复；验证未通过不提交。",
+      "gate": "升级需要独立隐藏 QA 的修复样本与经许可仓库的灰度结果。",
+      "evidence": [
+        "modou/agent/repair.py",
+        "modou/agent/repair_candidate.py"
+      ],
+      "mentions": [
+        "候选修复",
+        "repair candidate",
+        "自动修复"
+      ],
+      "disclosures": [
+        "实验性",
+        "experimental",
+        "opt-in",
+        "选择启用"
+      ],
+      "forbidden": [
+        {
+          "pattern": "(自动|automatically).{0,12}(push|merge|publish|推送|合并|发布)",
+          "why": "产品没有 push、merge 或发布的实现入口，声称具备即为虚假描述。"
+        },
+        {
+          "pattern": "(验证失败|未通过验证).{0,16}(仍会|也会|依然)(提交|commit)",
+          "why": "验证未通过禁止提交，这是执行器的硬约束。"
+        }
+      ]
+    }
+  ],
+  "note": "窄口径 v0.2 公开候选包的能力注册表。新增能力一律以最保守可辩护的状态声明；任何升级都必须先有对应证据，公开仓库矩阵第二轮结论未出前不得改动本表状态。"
+}
