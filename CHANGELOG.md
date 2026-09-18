@@ -4,6 +4,18 @@ All notable public changes are documented here. This log covers only the sanitiz
 
 ## [Unreleased]
 
+### Documentation maintenance — 2026-09-18
+
+- Restore the bilingual product introduction, reversible-experiment explanation, language and license badges, navigation, and copyable quick-start commands.
+- Remove the personal author and college attribution from the README while retaining license notices.
+- Link directly to the v0.2 preview and platform assets, publish their SHA-256 values, and correct the Windows archive filename in the installation guide.
+- Describe the language adapters by actual validation scope and preserve the distinction between candidate validation, adoption and revalidation.
+
+### Release maintenance — 2026-09-18
+
+- The public product snapshot and platform assets were refreshed under the existing `v0.2.0-experimental.1` release on September 18 (source `ecb17036`); the original September 8 notes below describe the earlier snapshot.
+- The reused tag triggered release verification with obsolete September 8 commit and digest variables. Maintenance reconciles the release metadata with the September 18 snapshot; future releases must use a new tag rather than replacing a published tag.
+
 ### Changed
 
 - README now carries a current-status table sourced from the capability registry, states the verified Python and Node.js versions, and documents the Chromium and virtual-environment prerequisites of the end-to-end check.

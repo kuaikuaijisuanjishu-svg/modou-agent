@@ -11,7 +11,7 @@ Windows 包的后端运行在 WSL2 的 Linux 文件系统中，浏览器和编�
 
 ## 安装和启动
 
-1. 将 `shuimu-yanma-v0.2-public-win10-wsl2-*.zip` 解压到任意目录。
+1. 将 `shuimu-yanma-v0.2-public-windows-*.zip` 解压到任意目录。
 2. 在 PowerShell 中运行：
 
    ```powershell
